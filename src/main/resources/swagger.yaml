@@ -1,0 +1,451 @@
+openapi: 3.0.3
+servers:
+# Added by API Auto Mocking Plugin
+- description: SwaggerHub API Auto Mocking
+  url: https://virtserver.swaggerhub.com/Andric/demo1/1.0.0
+- url: https://localhost
+info:
+  description: Core api
+  title: Core API
+  version: 1.0.0
+  license: 
+    name: internal
+    url: https://localhost.com
+security:
+  - boeing-auth:
+    - write
+    - read
+paths:
+  /functionalareas:
+    get:
+      operationId: getFunctionalAreas
+      responses:
+        200:
+          description: 200 response
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NodeListResult'
+  /functionalareas/tree:
+    get:
+      operationId: getFunctionalAreasTree
+      responses:
+        '200':
+          description: 200 response
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TreeResult'
+    parameters:
+      - $ref: '#/components/parameters/treeDepthParam'
+  /functionalareas/{functionalAreaId}:
+    get:
+      operationId: getFunctionalArea
+      responses:
+        '200':
+          description: 200 response
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NodeResult'
+    parameters:
+      - $ref: '#/components/parameters/functionalAreaIdParam'
+  /functionalareas/{functionalAreaId}/tree:
+    get:
+      operationId: getFunctionalAreaTree
+      responses:
+        '200':
+          description: 200 response
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TreeResult'
+    parameters:
+    - $ref: '#/components/parameters/treeDepthParam'
+    - $ref: '#/components/parameters/functionalAreaIdParam' 
+  /functionalareas/{functionalAreaId}/functionalgroups:
+    get:
+      operationId: getFunctionalGroups
+      responses:
+        '200':
+          description: 200 response
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NodeListResult'
+    parameters:
+      - $ref: '#/components/parameters/functionalAreaIdParam'
+  /functionalareas/{functionalAreaId}/functionalgroups/{functionalGroupId}:
+    get:
+      operationId: getFunctionalGroup
+      responses:
+        '200':
+          description: 200 response
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NodeResult'
+    parameters:
+      - $ref: '#/components/parameters/functionalAreaIdParam'
+      - $ref: '#/components/parameters/functionalGroupIdParam'
+  /functionalareas/{functionalAreaId}/functionalgroups/{functionalGroupId}/tree:
+    get:
+      operationId: getFunctionalGroupTree
+      responses:
+        '200':
+          description: 200 response
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NodeResult'
+    parameters:
+      - $ref: '#/components/parameters/functionalAreaIdParam'
+      - $ref: '#/components/parameters/functionalGroupIdParam'
+      - $ref: '#/components/parameters/treeDepthParam'
+  /functionalareas/{functionalAreaId}/functionalgroups/{functionalGroupId}/functions:
+    get:
+      operationId: getFunctions
+      responses:
+        '200':
+          description: 200 response
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NodeListResult'
+    parameters:
+      - $ref: '#/components/parameters/functionalAreaIdParam'
+      - $ref: '#/components/parameters/functionalGroupIdParam'
+  /functionalareas/{functionalAreaId}/functionalgroups/{functionalGroupId}/functions/{functionId}:
+    get:
+      operationId: getFunction
+      responses:
+        '200':
+          description: 200 response
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NodeResult'
+    parameters:
+      - $ref: '#/components/parameters/functionalAreaIdParam'
+      - $ref: '#/components/parameters/functionalGroupIdParam'
+      - $ref: '#/components/parameters/functionIdParam'
+  /functionalareas/{functionalAreaId}/functionalgroups/{functionalGroupId}/functions/{functionId}/tree:
+    get:
+      operationId: getFunctionTree
+      responses:
+        '200':
+          description: 200 response
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NodeResult'
+    parameters:
+      - $ref: '#/components/parameters/functionalAreaIdParam'
+      - $ref: '#/components/parameters/functionalGroupIdParam'
+      - $ref: '#/components/parameters/functionIdParam'
+      - $ref: '#/components/parameters/treeDepthParam'
+  /nodes/{nodeId}:
+    parameters:
+      - $ref: '#/components/parameters/nodeIdParam'
+    get:
+      description: 'retrieves a specific node'
+      operationId: getNode
+      responses:
+        '200':
+          description: 200 response
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NodeResult'
+    put:
+      description: 'update node. returns the node on success'
+      operationId: upsertNode 
+      requestBody:
+        description: A valid node for update or creation
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Node'
+      responses:
+        '200':
+          description: 200 response
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NodeResult'
+    delete:
+      description: 'delete a  node. returns an empty value on success '
+      operationId: deleteNode 
+      responses:
+        '200':
+          description: 200 response
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NodeResult'
+components:
+  parameters:
+    nodeIdParam:
+      in: path
+      required: true
+      schema:
+        type: string
+      name: functionalnodeIdGroupId
+      description: id for operations on a specific node
+    functionalGroupIdParam:
+      in: path
+      required: true
+      schema:
+        type: string
+      name: functionalGroupId
+      description: id for the required functionalGroup node
+    functionalAreaIdParam:
+      in: path
+      required: true
+      schema:
+        type: string
+      name: functionalAreaId
+      description: id for the required functionalArea node
+    functionIdParam:
+      in: path
+      required: true
+      schema:
+        type: string
+      name: functionId
+      description: id for the required function node
+    treeDepthParam:
+      in: query
+      name: treedepth
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+        default: 3
+      description: how many levels to return. default 3
+  responses:
+    Success200:
+      description: Generic non error response
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResult'
+    BadRequest400:
+      description: The request could not be processed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResult'
+    Unauthorized401:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResult'
+    NotFound404:
+      description: The specified resource was not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResult'
+    Default4XX:
+      description: Client error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResult'
+    Default5XX:
+      description: Server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResult'
+  securitySchemes:
+    boeing-auth:
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: https://example.com/api/oauth/dialog
+          scopes:
+            write: create data
+            read: read data
+  schemas:
+    Empty:
+      type: object
+    Result:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+        succeeded:
+          type: boolean
+      required:
+      - succeeded
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+      required:
+      - code
+      - message
+    HttpError:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/Error'
+    ErrorResult:
+      type: object
+      properties:
+        result:
+          $ref: '#/components/schemas/Result'
+        data:
+          $ref: '#/components/schemas/HttpError'
+    TreeResult:
+      type: object
+      properties:
+        result:
+          $ref: '#/components/schemas/Result'
+        data:
+          $ref: '#/components/schemas/TreeType'
+      description: tree object with an app as root
+    TreeType:
+      type: object
+      properties:
+        nodes:
+          $ref: '#/components/schemas/NodeList'
+        relationships:
+          $ref: '#/components/schemas/RelationshipList'
+    NodeResult:
+      type: object
+      properties:
+        result:
+          $ref: '#/components/schemas/Result'
+        data:
+          oneOf:
+           - $ref: '#/components/schemas/Node'
+           - $ref: '#/components/schemas/Empty'
+      description: result with single generic Node object
+    NodeList:
+      type: object
+      properties:
+        nodes:
+          oneOf:
+          - type: array
+            items:
+              $ref: '#/components/schemas/Node'
+          - $ref: '#/components/schemas/Empty'
+      description: List of Node objects
+    RelationshipList:
+      type: object
+      properties:
+        relationships:
+          oneOf:
+          - type: array
+            items:
+              $ref: '#/components/schemas/Relationship'
+          - $ref: '#/components/schemas/Empty'
+      description: result with multiple Node objects
+    NodeListResult:
+      type: object
+      properties:
+        result:
+          $ref: '#/components/schemas/Result'
+        data:
+          $ref: '#/components/schemas/NodeList'
+      description: result with multiple Node objects
+    Node:
+      type: object
+      properties:
+        dbId:
+          type: string
+          readOnly: true
+          nullable: true
+        labels:
+          type: array
+          items:
+            type: string
+        createdBy:
+          type: string
+          readOnly: true
+        lastModifiedBy:
+          type: string
+        timeCreated:
+          type: string
+          format: date-time
+          readOnly: true
+        timeModified:
+          type: string
+          format: date-time
+      description: ""
+      required:
+      - dbId
+      - createdBy
+      - lastModifiedBy
+      - timeCreated
+      - timeModified
+    Relationship:
+      type: object
+      properties:
+        dbId:
+          type: string
+        label:
+          type: string
+      required:
+      - dbId
+      - label
