@@ -201,7 +201,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/NodeResult'
-    put:
+    patch:
       description: 'update node. returns the node on success'
       operationId: upsertNode 
       requestBody:
@@ -236,6 +236,30 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/NodeResult'
+  /nodes/{nodeId}/move:
+    parameters:
+      - $ref: '#/components/parameters/nodeIdParam'
+    post:
+      description: 'move a node to a new parent. returns the node on success'
+      operationId: moveNode
+      requestBody:
+        description: A valid node for update or creation
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Node'
+      responses:
+        '200':
+          description: 200 response
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NodeResult'
 components:
   parameters:
     nodeIdParam:
@@ -245,6 +269,7 @@ components:
         type: string
       name: functionalnodeIdGroupId
       description: id for operations on a specific node
+      example: '1234'
     functionalGroupIdParam:
       in: path
       required: true
@@ -275,6 +300,7 @@ components:
         minimum: 1
         default: 3
       description: how many levels to return. default 3
+      example: 2
   responses:
     Success200:
       description: Generic non error response
@@ -322,40 +348,81 @@ components:
             write: create data
             read: read data
   schemas:
+    NodeId:
+      type: string
+      description: unique db identifier for the node
+      example: "123"
     Empty:
       type: object
+      description: An empty object for when there is no data
     Result:
       type: object
       properties:
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/Error'
+        infoMessages:
+          oneOf:
+            - type: array
+              items:
+                $ref: '#/components/schemas/ApiError'
+            - $ref: '#/components/schemas/Empty'
+          description: list of messages if any. Empty object when none
         succeeded:
           type: boolean
       required:
       - succeeded
-    Error:
+      example:
+        succeeded: false
+        infoMessages:
+          - code: "API-400"
+            message: "Exception: Network error"
+    ApiError:
       type: object
       properties:
         code:
+          oneOf:
+            - type: string
+            - type: integer
           type: string
         message:
           type: string
       required:
       - code
       - message
+      description: Error object
+      example:
+        code: "API-400"
+        message: "Exception: Network error"
     HttpError:
       type: object
-      allOf:
-        - $ref: '#/components/schemas/Error'
+      properties:
+        status:
+          type: integer
+          format: int32
+          description: HTTP status code
+        message: 
+          type: string
+          description: error message
+      required:
+      - status
+      - message
+      example:
+        status: 400
+        message: "Bad Request" 
     ErrorResult:
       type: object
       properties:
         result:
           $ref: '#/components/schemas/Result'
         data:
-          $ref: '#/components/schemas/HttpError'
+          oneOf:
+            - $ref: '#/components/schemas/HttpError'
+            - $ref: '#/components/schemas/ApiError'
+      description: Result object typed for error responses
+      example:
+        result:
+          succeeded: false
+        data:
+          code: "API-400"
+          message: "Exception: Network error"
     TreeResult:
       type: object
       properties:
@@ -416,36 +483,48 @@ components:
           type: string
           readOnly: true
           nullable: true
+          description: unique db identifier for the node. Not there for new nodes
+        id:
+          type: string
+          description: unique id for the node
         labels:
           type: array
           items:
             type: string
-        createdBy:
-          type: string
-          readOnly: true
-        lastModifiedBy:
-          type: string
-        timeCreated:
-          type: string
-          format: date-time
-          readOnly: true
-        timeModified:
-          type: string
-          format: date-time
-      description: ""
+          description: list of labels for the node
+        orderId:
+          type: number
+          format: double
+          description: display order of the node
+      description: "A discrete value object from the database"
+      example:
+        dbId: "123"
+        labels: ["functionalArea"]
+        orderId: 1.01
       required:
-      - dbId
-      - createdBy
-      - lastModifiedBy
-      - timeCreated
-      - timeModified
+      - id
+      - labels
     Relationship:
       type: object
       properties:
         dbId:
-          type: string
+          $ref: '#/components/schemas/NodeId'
         label:
           type: string
+          description: label for the relationship
       required:
       - dbId
       - label
+    MoveNodeInfo:
+      type: object
+      properties:
+        nodeId:
+          type: string
+        newParentId:
+          type: string
+        newOrderId:
+          type: number
+          format: double
+      required:
+      - nodeId
+      - newParentId
