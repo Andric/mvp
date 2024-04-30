@@ -12,12 +12,110 @@ info:
 servers:
   # Added by API Auto Mocking Plugin
   - url: https://localhost/v1
+    description: ""
 security:
   - boeing-auth:
       - write
       - read
 paths:
-  /functionalareas:
+  /clients:
+    get:
+      operationId: getClients
+      description: "retrieves a list of clients. Boeing only"
+      responses:
+        200:
+          description: 200 response
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiResult"
+  /clients/tree:
+    get:
+      operationId: getClientsTree
+      description: "retrieves clients and the engagements for all clients - those two levels only. Boeing only"
+      responses:
+        "200":
+          description: 200 response
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiResult"
+  /clients/{clientId}: 
+    get:
+      operationId: getClient
+      description: "retrieves a specific client. Boeing only"
+      responses:
+        200:
+          description: 200 response
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiResult"
+    parameters:
+      - $ref: "#/components/parameters/clientIdParam"
+  /clients/{clientId}/tree:
+    get:
+      operationId: getClientTree
+      description: "retrieves client and client engagements - those two levels only. Boeing only"
+      responses:
+        "200":
+          description: 200 response
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiResult"
+    parameters:
+      - $ref: "#/components/parameters/clientIdParam"
+  /clients/{clientId}/engagements:
+    get:
+      operationId: getClientEngagements
+      responses:
+        200:
+          description: 200 response
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiResult"
+    parameters:
+      - $ref: "#/components/parameters/clientIdParam"
+  /clients/{clientId}/engagements/{engagementId}:
+    get:
+      operationId: getClientEngagement
+      responses:
+        200:
+          description: 200 response
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiResult"
+    parameters:
+      - $ref: "#/components/parameters/clientIdParam"
+      - $ref: "#/components/parameters/engagementIdParam"
+  /clients/{clientId}/engagements/{engagementId}/functionalareas:
     get:
       operationId: getFunctionalAreas
       responses:
@@ -31,7 +129,10 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiResult"
-  /functionalareas/tree:
+    parameters:
+      - $ref: "#/components/parameters/clientIdParam"
+      - $ref: "#/components/parameters/engagementIdParam"
+  /clients/{clientId}/engagements/{engagementId}/functionalareas/tree:
     get:
       operationId: getFunctionalAreasTree
       responses:
@@ -47,7 +148,9 @@ paths:
                 $ref: "#/components/schemas/ApiResult"
     parameters:
       - $ref: "#/components/parameters/treeDepthParam"
-  /functionalareas/{functionalAreaId}:
+      - $ref: "#/components/parameters/clientIdParam"
+      - $ref: "#/components/parameters/engagementIdParam"
+  /clients/{clientId}/engagements/{engagementId}/functionalareas/{functionalAreaId}:
     get:
       operationId: getFunctionalArea
       responses:
@@ -62,8 +165,10 @@ paths:
               schema:
                 $ref: "#/components/schemas/ApiResult"
     parameters:
+      - $ref: "#/components/parameters/clientIdParam"
+      - $ref: "#/components/parameters/engagementIdParam"
       - $ref: "#/components/parameters/functionalAreaIdParam"
-  /functionalareas/{functionalAreaId}/tree:
+  /clients/{clientId}/engagements/{engagementId}/functionalareas/{functionalAreaId}/tree:
     get:
       operationId: getFunctionalAreaTree
       responses:
@@ -78,9 +183,11 @@ paths:
               schema:
                 $ref: "#/components/schemas/ApiResult"
     parameters:
+      - $ref: "#/components/parameters/clientIdParam"
+      - $ref: "#/components/parameters/engagementIdParam"
       - $ref: "#/components/parameters/treeDepthParam"
       - $ref: "#/components/parameters/functionalAreaIdParam"
-  /functionalareas/{functionalAreaId}/functionalgroups:
+  /clients/{clientId}/engagements/{engagementId}/functionalareas/{functionalAreaId}/functionalgroups:
     get:
       operationId: getFunctionalGroups
       responses:
@@ -95,8 +202,10 @@ paths:
               schema:
                 $ref: "#/components/schemas/ApiResult"
     parameters:
+      - $ref: "#/components/parameters/clientIdParam"
+      - $ref: "#/components/parameters/engagementIdParam"
       - $ref: "#/components/parameters/functionalAreaIdParam"
-  /functionalareas/{functionalAreaId}/functionalgroups/{functionalGroupId}:
+  /clients/{clientId}/engagements/{engagementId}/functionalareas/{functionalAreaId}/functionalgroups/{functionalGroupId}:
     get:
       operationId: getFunctionalGroup
       responses:
@@ -111,9 +220,11 @@ paths:
               schema:
                 $ref: "#/components/schemas/ApiResult"
     parameters:
+      - $ref: "#/components/parameters/clientIdParam"
+      - $ref: "#/components/parameters/engagementIdParam"
       - $ref: "#/components/parameters/functionalAreaIdParam"
       - $ref: "#/components/parameters/functionalGroupIdParam"
-  /functionalareas/{functionalAreaId}/functionalgroups/{functionalGroupId}/tree:
+  /clients/{clientId}/engagements/{engagementId}/functionalareas/{functionalAreaId}/functionalgroups/{functionalGroupId}/tree:
     get:
       operationId: getFunctionalGroupTree
       responses:
@@ -128,10 +239,12 @@ paths:
               schema:
                 $ref: "#/components/schemas/ApiResult"
     parameters:
+      - $ref: "#/components/parameters/clientIdParam"
+      - $ref: "#/components/parameters/engagementIdParam"
       - $ref: "#/components/parameters/functionalAreaIdParam"
       - $ref: "#/components/parameters/functionalGroupIdParam"
       - $ref: "#/components/parameters/treeDepthParam"
-  /functionalareas/{functionalAreaId}/functionalgroups/{functionalGroupId}/functions:
+  /clients/{clientId}/engagements/{engagementId}/functionalareas/{functionalAreaId}/functionalgroups/{functionalGroupId}/functions:
     get:
       operationId: getFunctions
       responses:
@@ -146,9 +259,11 @@ paths:
               schema:
                 $ref: "#/components/schemas/ApiResult"
     parameters:
+      - $ref: "#/components/parameters/clientIdParam"
+      - $ref: "#/components/parameters/engagementIdParam"
       - $ref: "#/components/parameters/functionalAreaIdParam"
       - $ref: "#/components/parameters/functionalGroupIdParam"
-  /functionalareas/{functionalAreaId}/functionalgroups/{functionalGroupId}/functions/{functionId}:
+  /clients/{clientId}/engagements/{engagementId}/functionalareas/{functionalAreaId}/functionalgroups/{functionalGroupId}/functions/{functionId}:
     get:
       operationId: getFunction
       responses:
@@ -163,10 +278,12 @@ paths:
               schema:
                 $ref: "#/components/schemas/ApiResult"
     parameters:
+      - $ref: "#/components/parameters/clientIdParam"
+      - $ref: "#/components/parameters/engagementIdParam"
       - $ref: "#/components/parameters/functionalAreaIdParam"
       - $ref: "#/components/parameters/functionalGroupIdParam"
       - $ref: "#/components/parameters/functionIdParam"
-  /functionalareas/{functionalAreaId}/functionalgroups/{functionalGroupId}/functions/{functionId}/tree:
+  /clients/{clientId}/engagements/{engagementId}/functionalareas/{functionalAreaId}/functionalgroups/{functionalGroupId}/functions/{functionId}/tree:
     get:
       operationId: getFunctionTree
       responses:
@@ -181,12 +298,16 @@ paths:
               schema:
                 $ref: "#/components/schemas/ApiResult"
     parameters:
+      - $ref: "#/components/parameters/clientIdParam"
+      - $ref: "#/components/parameters/engagementIdParam"
       - $ref: "#/components/parameters/functionalAreaIdParam"
       - $ref: "#/components/parameters/functionalGroupIdParam"
       - $ref: "#/components/parameters/functionIdParam"
       - $ref: "#/components/parameters/treeDepthParam"
-  /nodes/{nodeId}:
+  /clients/{clientId}/engagements/{engagementId}/nodes/{nodeId}:
     parameters:
+      - $ref: "#/components/parameters/clientIdParam"
+      - $ref: "#/components/parameters/engagementIdParam"
       - $ref: "#/components/parameters/nodeIdParam"
     get:
       description: "retrieves a specific node"
@@ -237,8 +358,10 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiResult"
-  /nodes/{nodeId}/move:
+  /clients/{clientId}/engagements/{engagementId}/nodes/{nodeId}/move:
     parameters:
+      - $ref: "#/components/parameters/clientIdParam"
+      - $ref: "#/components/parameters/engagementIdParam"
       - $ref: "#/components/parameters/nodeIdParam"
     post:
       description: "move a node to a new parent. returns the node on success"
@@ -249,7 +372,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/Node"
+              $ref: "#/components/schemas/MoveNodeInfo"
       responses:
         "200":
           description: 200 response
@@ -261,7 +384,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiResult"
-  /nodes/{nodeId}/tree:
+  /clients/{clientId}/engagements/{engagementId}/nodes/{nodeId}/tree:
     get:
       operationId: getNodeTree
       responses:
@@ -276,16 +399,34 @@ paths:
               schema:
                 $ref: "#/components/schemas/ApiResult"
     parameters:
+      - $ref: "#/components/parameters/clientIdParam"
+      - $ref: "#/components/parameters/engagementIdParam"
       - $ref: "#/components/parameters/treeDepthParam"
       - $ref: "#/components/parameters/nodeIdParam"
 components:
   parameters:
+    clientIdParam:
+      in: path
+      required: true
+      schema:
+        $ref: "#/components/schemas/NodeId"
+      name: clientId
+      description: id for operations on a specific client
+      example: "1234"
+    engagementIdParam:
+      in: path
+      required: true
+      schema:
+        $ref: "#/components/schemas/NodeId"
+      name: engagementId
+      description: id for operations on a specific engagement
+      example: "1234"
     nodeIdParam:
       in: path
       required: true
       schema:
         $ref: "#/components/schemas/NodeId"
-      name: functionalnodeIdGroupId
+      name: nodeId
       description: id for operations on a specific node
       example: "1234"
     functionalGroupIdParam:
@@ -319,6 +460,13 @@ components:
         default: 9
       description: how many levels to return. default 3
       example: 2
+    noteIdParam:
+      in: path
+      required: true
+      schema:
+        $ref: "#/components/schemas/NodeId"
+      name: noteId
+      description: id for the required note
   responses:
     Success200:
       description: Generic non error response
