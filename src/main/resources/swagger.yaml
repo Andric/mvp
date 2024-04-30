@@ -1,17 +1,21 @@
 openapi: 3.0.3
-servers:
-# Added by API Auto Mocking Plugin
-- url: https://localhost/v01
-  description: Core api
+info:
   title: Core API
+  description: Core API for the Boeing Functional Areas
   version: 1.0.0
-  license: 
+  contact:
+    name: Boeing
+    url: https://localhost.com
+  license:
     name: internal
     url: https://localhost.com
+servers:
+  # Added by API Auto Mocking Plugin
+  - url: https://localhost/v1
 security:
   - boeing-auth:
-    - write
-    - read
+      - write
+      - read
 paths:
   /functionalareas:
     get:
@@ -26,12 +30,12 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ApiResult'
+                $ref: "#/components/schemas/ApiResult"
   /functionalareas/tree:
     get:
       operationId: getFunctionalAreasTree
       responses:
-        '200':
+        "200":
           description: 200 response
           headers:
             Access-Control-Allow-Origin:
@@ -40,14 +44,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ApiResult'
+                $ref: "#/components/schemas/ApiResult"
     parameters:
-      - $ref: '#/components/parameters/treeDepthParam'
+      - $ref: "#/components/parameters/treeDepthParam"
   /functionalareas/{functionalAreaId}:
     get:
       operationId: getFunctionalArea
       responses:
-        '200':
+        "200":
           description: 200 response
           headers:
             Access-Control-Allow-Origin:
@@ -56,14 +60,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ApiResult'
+                $ref: "#/components/schemas/ApiResult"
     parameters:
-      - $ref: '#/components/parameters/functionalAreaIdParam'
+      - $ref: "#/components/parameters/functionalAreaIdParam"
   /functionalareas/{functionalAreaId}/tree:
     get:
       operationId: getFunctionalAreaTree
       responses:
-        '200':
+        "200":
           description: 200 response
           headers:
             Access-Control-Allow-Origin:
@@ -72,15 +76,15 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ApiResult'
+                $ref: "#/components/schemas/ApiResult"
     parameters:
-    - $ref: '#/components/parameters/treeDepthParam'
-    - $ref: '#/components/parameters/functionalAreaIdParam' 
+      - $ref: "#/components/parameters/treeDepthParam"
+      - $ref: "#/components/parameters/functionalAreaIdParam"
   /functionalareas/{functionalAreaId}/functionalgroups:
     get:
       operationId: getFunctionalGroups
       responses:
-        '200':
+        "200":
           description: 200 response
           headers:
             Access-Control-Allow-Origin:
@@ -89,14 +93,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ApiResult'
+                $ref: "#/components/schemas/ApiResult"
     parameters:
-      - $ref: '#/components/parameters/functionalAreaIdParam'
+      - $ref: "#/components/parameters/functionalAreaIdParam"
   /functionalareas/{functionalAreaId}/functionalgroups/{functionalGroupId}:
     get:
       operationId: getFunctionalGroup
       responses:
-        '200':
+        "200":
           description: 200 response
           headers:
             Access-Control-Allow-Origin:
@@ -105,15 +109,15 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ApiResult'
+                $ref: "#/components/schemas/ApiResult"
     parameters:
-      - $ref: '#/components/parameters/functionalAreaIdParam'
-      - $ref: '#/components/parameters/functionalGroupIdParam'
+      - $ref: "#/components/parameters/functionalAreaIdParam"
+      - $ref: "#/components/parameters/functionalGroupIdParam"
   /functionalareas/{functionalAreaId}/functionalgroups/{functionalGroupId}/tree:
     get:
       operationId: getFunctionalGroupTree
       responses:
-        '200':
+        "200":
           description: 200 response
           headers:
             Access-Control-Allow-Origin:
@@ -122,16 +126,16 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ApiResult'
+                $ref: "#/components/schemas/ApiResult"
     parameters:
-      - $ref: '#/components/parameters/functionalAreaIdParam'
-      - $ref: '#/components/parameters/functionalGroupIdParam'
-      - $ref: '#/components/parameters/treeDepthParam'
+      - $ref: "#/components/parameters/functionalAreaIdParam"
+      - $ref: "#/components/parameters/functionalGroupIdParam"
+      - $ref: "#/components/parameters/treeDepthParam"
   /functionalareas/{functionalAreaId}/functionalgroups/{functionalGroupId}/functions:
     get:
       operationId: getFunctions
       responses:
-        '200':
+        "200":
           description: 200 response
           headers:
             Access-Control-Allow-Origin:
@@ -140,15 +144,15 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ApiResult'
+                $ref: "#/components/schemas/ApiResult"
     parameters:
-      - $ref: '#/components/parameters/functionalAreaIdParam'
-      - $ref: '#/components/parameters/functionalGroupIdParam'
+      - $ref: "#/components/parameters/functionalAreaIdParam"
+      - $ref: "#/components/parameters/functionalGroupIdParam"
   /functionalareas/{functionalAreaId}/functionalgroups/{functionalGroupId}/functions/{functionId}:
     get:
       operationId: getFunction
       responses:
-        '200':
+        "200":
           description: 200 response
           headers:
             Access-Control-Allow-Origin:
@@ -157,16 +161,16 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ApiResult'
+                $ref: "#/components/schemas/ApiResult"
     parameters:
-      - $ref: '#/components/parameters/functionalAreaIdParam'
-      - $ref: '#/components/parameters/functionalGroupIdParam'
-      - $ref: '#/components/parameters/functionIdParam'
+      - $ref: "#/components/parameters/functionalAreaIdParam"
+      - $ref: "#/components/parameters/functionalGroupIdParam"
+      - $ref: "#/components/parameters/functionIdParam"
   /functionalareas/{functionalAreaId}/functionalgroups/{functionalGroupId}/functions/{functionId}/tree:
     get:
       operationId: getFunctionTree
       responses:
-        '200':
+        "200":
           description: 200 response
           headers:
             Access-Control-Allow-Origin:
@@ -175,20 +179,20 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ApiResult'
+                $ref: "#/components/schemas/ApiResult"
     parameters:
-      - $ref: '#/components/parameters/functionalAreaIdParam'
-      - $ref: '#/components/parameters/functionalGroupIdParam'
-      - $ref: '#/components/parameters/functionIdParam'
-      - $ref: '#/components/parameters/treeDepthParam'
+      - $ref: "#/components/parameters/functionalAreaIdParam"
+      - $ref: "#/components/parameters/functionalGroupIdParam"
+      - $ref: "#/components/parameters/functionIdParam"
+      - $ref: "#/components/parameters/treeDepthParam"
   /nodes/{nodeId}:
     parameters:
-      - $ref: '#/components/parameters/nodeIdParam'
+      - $ref: "#/components/parameters/nodeIdParam"
     get:
-      description: 'retrieves a specific node'
+      description: "retrieves a specific node"
       operationId: getNode
       responses:
-        '200':
+        "200":
           description: 200 response
           headers:
             Access-Control-Allow-Origin:
@@ -197,19 +201,19 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ApiResult'
+                $ref: "#/components/schemas/ApiResult"
     patch:
-      description: 'update node. returns the node on success'
-      operationId: upsertNode 
+      description: "update node. returns the node on success"
+      operationId: upsertNode
       requestBody:
         description: A valid node for update or creation
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ApiResult'
+              $ref: "#/components/schemas/ApiResult"
       responses:
-        '200':
+        "200":
           description: 200 response
           headers:
             Access-Control-Allow-Origin:
@@ -218,12 +222,12 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ApiResult'
+                $ref: "#/components/schemas/ApiResult"
     delete:
-      description: 'delete a  node. returns an empty value on success '
-      operationId: deleteNode 
+      description: "delete a  node. returns an empty value on success "
+      operationId: deleteNode
       responses:
-        '200':
+        "200":
           description: 200 response
           headers:
             Access-Control-Allow-Origin:
@@ -232,12 +236,12 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ApiResult'
+                $ref: "#/components/schemas/ApiResult"
   /nodes/{nodeId}/move:
     parameters:
-      - $ref: '#/components/parameters/nodeIdParam'
+      - $ref: "#/components/parameters/nodeIdParam"
     post:
-      description: 'move a node to a new parent. returns the node on success'
+      description: "move a node to a new parent. returns the node on success"
       operationId: moveNode
       requestBody:
         description: A valid node for update or creation
@@ -245,9 +249,9 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Node'
+              $ref: "#/components/schemas/Node"
       responses:
-        '200':
+        "200":
           description: 200 response
           headers:
             Access-Control-Allow-Origin:
@@ -256,12 +260,12 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ApiResult'
+                $ref: "#/components/schemas/ApiResult"
   /nodes/{nodeId}/tree:
     get:
       operationId: getNodeTree
       responses:
-        '200':
+        "200":
           description: 200 response
           headers:
             Access-Control-Allow-Origin:
@@ -270,10 +274,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ApiResult'
+                $ref: "#/components/schemas/ApiResult"
     parameters:
-    - $ref: '#/components/parameters/treeDepthParam'
-    - $ref: '#/components/parameters/nodeIdParam' 
+      - $ref: "#/components/parameters/treeDepthParam"
+      - $ref: "#/components/parameters/nodeIdParam"
 components:
   parameters:
     nodeIdParam:
@@ -283,7 +287,7 @@ components:
         $ref: "#/components/schemas/NodeId"
       name: functionalnodeIdGroupId
       description: id for operations on a specific node
-      example: '1234'
+      example: "1234"
     functionalGroupIdParam:
       in: path
       required: true
@@ -321,37 +325,37 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/ApiResult'
+            $ref: "#/components/schemas/ApiResult"
     BadRequest400:
       description: The request could not be processed
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/ApiResult'
+            $ref: "#/components/schemas/ApiResult"
     Unauthorized401:
       description: Unauthorized
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/ApiResult'
+            $ref: "#/components/schemas/ApiResult"
     NotFound404:
       description: The specified resource was not found
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/ApiResult'
+            $ref: "#/components/schemas/ApiResult"
     Default4XX:
       description: Client error
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/ApiResult'
+            $ref: "#/components/schemas/ApiResult"
     Default5XX:
       description: Server error
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/ApiResult'
+            $ref: "#/components/schemas/ApiResult"
   securitySchemes:
     boeing-auth:
       type: oauth2
@@ -379,17 +383,17 @@ components:
       properties:
         data:
           oneOf:
-            - $ref: '#/components/schemas/Error'
-            - $ref: '#/components/schemas/Empty'
-            - $ref: '#/components/schemas/Tree'
-            - $ref: '#/components/schemas/Node'
-            - $ref: '#/components/schemas/NodeList'
+            - $ref: "#/components/schemas/Error"
+            - $ref: "#/components/schemas/Empty"
+            - $ref: "#/components/schemas/Tree"
+            - $ref: "#/components/schemas/Node"
+            - $ref: "#/components/schemas/NodeList"
           description: API schema object
         succeeded:
           type: boolean
       required:
-      - succeeded
-      - data
+        - succeeded
+        - data
     Error:
       type: object
       properties:
@@ -400,15 +404,15 @@ components:
               description: HTTP status code
             - type: string
               description: API error code
-        message: 
+        message:
           type: string
           description: error message
       required:
-      - status
-      - message
+        - status
+        - message
       example:
         status: "DAL1002"
-        message: "Data Request Error " 
+        message: "Data Request Error "
     Node:
       type: object
       properties:
@@ -435,55 +439,55 @@ components:
         labels: ["functionalArea"]
         orderId: 1.01
       required:
-      - id
-      - labels
+        - id
+        - labels
     NodeList:
       type: object
       properties:
         nodes:
           oneOf:
-          - type: array
-            items:
-              $ref: '#/components/schemas/Node'
-          - $ref: '#/components/schemas/Empty'
+            - type: array
+              items:
+                $ref: "#/components/schemas/Node"
+            - $ref: "#/components/schemas/Empty"
       description: List of Node objects
     Relationship:
       type: object
       properties:
         dbId:
-          $ref: '#/components/schemas/NodeId'
+          $ref: "#/components/schemas/NodeId"
         label:
           type: string
           description: label for the relationship
       required:
-      - dbId
-      - label
+        - dbId
+        - label
     RelationshipList:
       type: object
       properties:
         relationships:
           oneOf:
-          - type: array
-            items:
-              $ref: '#/components/schemas/Relationship'
-          - $ref: '#/components/schemas/Empty'
+            - type: array
+              items:
+                $ref: "#/components/schemas/Relationship"
+            - $ref: "#/components/schemas/Empty"
       description: result with multiple Node objects
     Tree:
       type: object
       properties:
         nodes:
-          $ref: '#/components/schemas/NodeList'
+          $ref: "#/components/schemas/NodeList"
         relationships:
-          $ref: '#/components/schemas/RelationshipList'
+          $ref: "#/components/schemas/RelationshipList"
     MoveNodeInfo:
       type: object
       properties:
         dbId:
-          $ref: '#/components/schemas/NodeId'
+          $ref: "#/components/schemas/NodeId"
         newParentDbId:
-           $ref: '#/components/schemas/NodeId'
+          $ref: "#/components/schemas/NodeId"
         newOrderId:
-           $ref: '#/components/schemas/OrderId'
+          $ref: "#/components/schemas/OrderId"
       required:
-      - dbId
-      - newParentDbId
+        - dbId
+        - newParentDbId
