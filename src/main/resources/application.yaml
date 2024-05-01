@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: demo
+  profiles:
+    include: NEO4J
+server:
+  port: 8099
+logging:
+  level:
+    org:
+      springframework:
+        data:
+          neo4j: DEBUG
+

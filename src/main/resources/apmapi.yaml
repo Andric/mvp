@@ -33,9 +33,9 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiResult"
-  /clients/tree:
+  /clients/graph:
     get:
-      operationId: getClientsTree
+      operationId: getClientsGraph
       description: "retrieves clients and the engagements for all clients - those two levels only. Boeing only"
       responses:
         "200":
@@ -65,9 +65,9 @@ paths:
                 $ref: "#/components/schemas/ApiResult"
     parameters:
       - $ref: "#/components/parameters/clientIdParam"
-  /clients/{clientId}/tree:
+  /clients/{clientId}/graph:
     get:
-      operationId: getClientTree
+      operationId: getClientGraph
       description: "retrieves client and client engagements - those two levels only. Boeing only"
       responses:
         "200":
@@ -132,9 +132,9 @@ paths:
     parameters:
       - $ref: "#/components/parameters/clientIdParam"
       - $ref: "#/components/parameters/engagementIdParam"
-  /clients/{clientId}/engagements/{engagementId}/functionalareas/tree:
+  /clients/{clientId}/engagements/{engagementId}/functionalareas/graph:
     get:
-      operationId: getFunctionalAreasTree
+      operationId: getFunctionalAreasGraph
       responses:
         "200":
           description: 200 response
@@ -147,7 +147,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/ApiResult"
     parameters:
-      - $ref: "#/components/parameters/treeDepthParam"
+      - $ref: "#/components/parameters/graphDepthParam"
       - $ref: "#/components/parameters/clientIdParam"
       - $ref: "#/components/parameters/engagementIdParam"
   /clients/{clientId}/engagements/{engagementId}/functionalareas/{functionalAreaId}:
@@ -168,9 +168,9 @@ paths:
       - $ref: "#/components/parameters/clientIdParam"
       - $ref: "#/components/parameters/engagementIdParam"
       - $ref: "#/components/parameters/functionalAreaIdParam"
-  /clients/{clientId}/engagements/{engagementId}/functionalareas/{functionalAreaId}/tree:
+  /clients/{clientId}/engagements/{engagementId}/functionalareas/{functionalAreaId}/graph:
     get:
-      operationId: getFunctionalAreaTree
+      operationId: getFunctionalAreaGraph
       responses:
         "200":
           description: 200 response
@@ -185,7 +185,7 @@ paths:
     parameters:
       - $ref: "#/components/parameters/clientIdParam"
       - $ref: "#/components/parameters/engagementIdParam"
-      - $ref: "#/components/parameters/treeDepthParam"
+      - $ref: "#/components/parameters/graphDepthParam"
       - $ref: "#/components/parameters/functionalAreaIdParam"
   /clients/{clientId}/engagements/{engagementId}/functionalareas/{functionalAreaId}/functionalgroups:
     get:
@@ -224,9 +224,9 @@ paths:
       - $ref: "#/components/parameters/engagementIdParam"
       - $ref: "#/components/parameters/functionalAreaIdParam"
       - $ref: "#/components/parameters/functionalGroupIdParam"
-  /clients/{clientId}/engagements/{engagementId}/functionalareas/{functionalAreaId}/functionalgroups/{functionalGroupId}/tree:
+  /clients/{clientId}/engagements/{engagementId}/functionalareas/{functionalAreaId}/functionalgroups/{functionalGroupId}/graph:
     get:
-      operationId: getFunctionalGroupTree
+      operationId: getFunctionalGroupGraph
       responses:
         "200":
           description: 200 response
@@ -243,7 +243,7 @@ paths:
       - $ref: "#/components/parameters/engagementIdParam"
       - $ref: "#/components/parameters/functionalAreaIdParam"
       - $ref: "#/components/parameters/functionalGroupIdParam"
-      - $ref: "#/components/parameters/treeDepthParam"
+      - $ref: "#/components/parameters/graphDepthParam"
   /clients/{clientId}/engagements/{engagementId}/functionalareas/{functionalAreaId}/functionalgroups/{functionalGroupId}/functions:
     get:
       operationId: getFunctions
@@ -283,9 +283,9 @@ paths:
       - $ref: "#/components/parameters/functionalAreaIdParam"
       - $ref: "#/components/parameters/functionalGroupIdParam"
       - $ref: "#/components/parameters/functionIdParam"
-  /clients/{clientId}/engagements/{engagementId}/functionalareas/{functionalAreaId}/functionalgroups/{functionalGroupId}/functions/{functionId}/tree:
+  /clients/{clientId}/engagements/{engagementId}/functionalareas/{functionalAreaId}/functionalgroups/{functionalGroupId}/functions/{functionId}/graph:
     get:
-      operationId: getFunctionTree
+      operationId: getFunctionGraph
       responses:
         "200":
           description: 200 response
@@ -303,7 +303,7 @@ paths:
       - $ref: "#/components/parameters/functionalAreaIdParam"
       - $ref: "#/components/parameters/functionalGroupIdParam"
       - $ref: "#/components/parameters/functionIdParam"
-      - $ref: "#/components/parameters/treeDepthParam"
+      - $ref: "#/components/parameters/graphDepthParam"
   /clients/{clientId}/engagements/{engagementId}/nodes/{nodeId}:
     parameters:
       - $ref: "#/components/parameters/clientIdParam"
@@ -384,9 +384,9 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiResult"
-  /clients/{clientId}/engagements/{engagementId}/nodes/{nodeId}/tree:
+  /clients/{clientId}/engagements/{engagementId}/nodes/{nodeId}/graph:
     get:
-      operationId: getNodeTree
+      operationId: getNodeGraph
       responses:
         "200":
           description: 200 response
@@ -401,7 +401,7 @@ paths:
     parameters:
       - $ref: "#/components/parameters/clientIdParam"
       - $ref: "#/components/parameters/engagementIdParam"
-      - $ref: "#/components/parameters/treeDepthParam"
+      - $ref: "#/components/parameters/graphDepthParam"
       - $ref: "#/components/parameters/nodeIdParam"
 components:
   parameters:
@@ -450,9 +450,9 @@ components:
         $ref: "#/components/schemas/NodeId"
       name: functionId
       description: id for the required function node
-    treeDepthParam:
+    graphDepthParam:
       in: query
-      name: treedepth
+      name: graphdepth
       required: false
       schema:
         type: integer
@@ -516,35 +516,59 @@ components:
   schemas:
     NodeId:
       type: string
-      description: unique db identifier for the node
-      example: "123"
-    OrderId:
-      type: number
-      format: double
+      pattern: |
+        "^'[0-9]+\.[A-Z]{3}\.[0-9]+\.[0-9]+\.[0-9]+\.*[0-9]*"
+      description: used for identifiers of a node. Must match the pattern where the 3 letter alpha code matches a node type enum
+      readOnly: true
+      example: "1.UNK.1.2.33.44444"
+    SortId:
+      type: integer
+      readOnly: true
       description: display order of the node
-      example: 10.01
+      example: 2
     Empty:
       type: object
       description: An empty object for when there is no data
+      properties:
+        typeName:
+          type: string
+          description: "Name of the type"
+          default: "Empty"
     ApiResult:
       type: object
       properties:
         data:
-          oneOf:
-            - $ref: "#/components/schemas/Error"
-            - $ref: "#/components/schemas/Empty"
-            - $ref: "#/components/schemas/Tree"
-            - $ref: "#/components/schemas/Node"
-            - $ref: "#/components/schemas/NodeList"
-          description: API schema object
+          $ref: "#/components/schemas/Payload"
         succeeded:
           type: boolean
       required:
         - succeeded
         - data
+    Payload:
+      type: object
+      discriminator:
+        propertyName: typeName
+      oneOf:
+        - $ref: "#/components/schemas/NodeList"
+        - $ref: "#/components/schemas/Graph"
+        - $ref: "#/components/schemas/Empty"
+        - $ref: "#/components/schemas/Error"
+        - $ref: "#/components/schemas/ApmNote"
+        - $ref: "#/components/schemas/AmpTaskNode"
+        - $ref: "#/components/schemas/ClientNode"
+        - $ref: "#/components/schemas/EngagementNode"
+        - $ref: "#/components/schemas/SaveVersionNode"
+        - $ref: "#/components/schemas/AmpFnaNode"
+        - $ref: "#/components/schemas/AmpFngNode"
+        - $ref: "#/components/schemas/AmpFncNode"
+      description: Container for return values
     Error:
       type: object
       properties:
+        typeName:
+          type: string
+          description: "Name of the error type"
+          default: "Error"
         status:
           oneOf:
             - type: integer
@@ -564,41 +588,147 @@ components:
     Node:
       type: object
       properties:
+        typeName:
+          $ref: "#/components/schemas/NodeTypes"
         dbId:
           type: string
           readOnly: true
-          nullable: true
-          description: unique db identifier for the node. Not there for new nodes
-        id:
-          type: string
-          description: unique id for the node
+          description: db system id for the node
+        nodeId:
+          $ref: "#/components/schemas/NodeId"
         labels:
           type: array
           items:
             type: string
           description: list of labels for the node
-        orderId:
-          type: number
-          format: double
-          description: display order of the node
-      description: "A discrete value object from the database"
+      additionalProperties: true
+      description: "A discrete value object from the database with base required values and addtional key/value property pairs."
       example:
         dbId: "123"
         labels: ["functionalArea"]
         orderId: 1.01
       required:
-        - id
+        - typeName
         - labels
+    ApmNode:
+      type: object
+      allOf:
+        - $ref: "#/components/schemas/Node"
+      properties:
+        apmId:
+          type: string
+          description: apm system id for the node
+          readOnly: false
+        sort:
+          $ref: "#/components/schemas/SortId"
+        ampTitle:
+          type: string
+          description: title for the node
+        isDeleted:
+          type: boolean
+          description: is the node deleted
+      required:
+        - apmId
+        - sort
+    ClientNode:
+      type: object
+      properties:
+        typeName:
+          type: string
+          default: CVV
+        name:
+          type: string
+          nullable: false
+      allOf:
+        - $ref: "#/components/schemas/Node"
+    EngagementNode:
+      type: object
+      properties:
+        typeName:
+          type: string
+          default: EVV
+        engagementVersion:
+          type: integer
+          nullable: false
+        boeingAmpVersion:
+          type: string
+          nullable: false
+        createDate:
+          type: string
+          format: date-time
+          nullable: false
+        createBy:
+          $ref: "#/components/schemas/NodeId"
+        isCurrent:
+          type: boolean
+          nullable: false
+          default: true
+      allOf:
+        - $ref: "#/components/schemas/Node"
+    SaveVersionNode:
+      type: object
+      properties:
+        typeName:
+          type: string
+          default: EVV
+        saveVersion:
+          type: integer
+          nullable: false
+        name:
+          type: string
+          nullable: false
+        createDate:
+          type: string
+          format: date-time
+          nullable: false
+        createBy:
+          $ref: "#/components/schemas/NodeId"
+        isCurrent:
+          type: boolean
+          nullable: false
+          default: true
+      allOf:
+        - $ref: "#/components/schemas/Node"
+    AmpFnaNode:
+      type: object
+      properties:
+        typeName:
+          type: string
+          default: FNA
+      allOf:
+        - $ref: "#/components/schemas/ApmNode"
+    AmpFngNode:
+      type: object
+      properties:
+        typeName:
+          type: string
+          default: FNG
+      allOf:
+        - $ref: "#/components/schemas/ApmNode"
+    AmpFncNode:
+      type: object
+      properties:
+        typeName:
+          type: string
+          default: FNC
+        ampDesc:
+          type: string
+          nullable: false
+          default: ""
+      allOf:
+        - $ref: "#/components/schemas/ApmNode"
     NodeList:
       type: object
       properties:
-        nodes:
-          oneOf:
-            - type: array
-              items:
-                $ref: "#/components/schemas/Node"
-            - $ref: "#/components/schemas/Empty"
-      description: List of Node objects
+        typeName:
+          type: string
+          description: "type of the nodes in the list"
+          default: "GenericNodeList"
+        values:
+          type: array
+          items:
+            $ref: "#/components/schemas/Node"
+          description: List of Node objects
     Relationship:
       type: object
       properties:
@@ -613,20 +743,56 @@ components:
     RelationshipList:
       type: object
       properties:
-        relationships:
-          oneOf:
-            - type: array
-              items:
-                $ref: "#/components/schemas/Relationship"
-            - $ref: "#/components/schemas/Empty"
-      description: result with multiple Node objects
-    Tree:
+        values:
+          type: array
+          items:
+            $ref: "#/components/schemas/Relationship"
+      description: result with multiple Relationship objects
+    Graph:
       type: object
       properties:
+        typeName:
+          type: string
+          description: "Name of the graph type"
+          default: "Graph"
         nodes:
           $ref: "#/components/schemas/NodeList"
         relationships:
           $ref: "#/components/schemas/RelationshipList"
+    ApmNote:
+      type: object
+      allOf:
+        - $ref: "#/components/schemas/Node"
+      properties:
+        text:
+          type: string
+          description: note for the node
+        createDate:
+          type: string
+          format: date-time
+          description: date the node was created
+        createBy:
+          $ref: "#/components/schemas/NodeId"
+        isDeleted:
+          type: string
+          description: user who created the node
+    AmpTaskNode:
+      type: object
+      allOf:
+        - $ref: "#/components/schemas/Node"
+      properties:
+        text:
+          type: string
+          description: note for the node
+        createDate:
+          type: string
+          format: date-time
+          description: date the node was created
+        createBy:
+          $ref: "#/components/schemas/NodeId"
+        isDeleted:
+          type: string
+          description: user who created the node
     MoveNodeInfo:
       type: object
       properties:
@@ -634,8 +800,23 @@ components:
           $ref: "#/components/schemas/NodeId"
         newParentDbId:
           $ref: "#/components/schemas/NodeId"
-        newOrderId:
-          $ref: "#/components/schemas/OrderId"
       required:
         - dbId
         - newParentDbId
+    NodeTypes:
+      type: string
+      enum:
+        - CVV # Client
+        - EVV # Engagement
+        - FNA # Functional Area
+        - FNG # Functional Group
+        - FNC # Function
+        - TKK # Task
+        - NTT # Note
+        - COM # Comment
+        - TGT # TagTool
+        - TGS # TagSystem
+        - TGM # TagMisc
+        - UNK # GenericNode
+      description: "Name of the node type - primary label/DTO type name. for unknown or mixed list items use GenericNode"
+      default: "UNK"
