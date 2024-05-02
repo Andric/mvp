@@ -14,7 +14,7 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>apmapi</name>
-	<description>Demo project for Spring Boot</description>
+	<description>apmapi project for Spring Boot</description>
 	<properties>
 		<java.version>17</java.version>
 	</properties>
@@ -53,6 +53,12 @@
 			<scope>test</scope>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.neo4j.driver/neo4j-java-driver -->
+		<!-- https://mvnrepository.com/artifact/org.neo4j/neo4j-cypher-dsl -->
+		<dependency>
+			<groupId>org.neo4j</groupId>
+			<artifactId>neo4j-cypher-dsl</artifactId>
+			<version>2023.9.7</version>
+		</dependency>
 		<dependency>
 			<groupId>org.neo4j.driver</groupId>
 			<artifactId>neo4j-java-driver</artifactId>
@@ -80,11 +86,21 @@
 	<build>
 		<plugins>
 			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<excludes>
+						<exclude>
+							<groupId>org.projectlombok</groupId>
+							<artifactId>lombok</artifactId>
+						</exclude>
+					</excludes>
+				</configuration>
+			</plugin>
+			<plugin>
 				<groupId>org.openapitools</groupId>
 				<artifactId>openapi-generator-maven-plugin</artifactId>
-				<!-- RELEASE_VERSION -->
 				<version>7.5.0</version>
-				<!-- /RELEASE_VERSION -->
 				<executions>
 					<execution>
 						<goals>
@@ -93,8 +109,8 @@
 						<configuration>
 							<inputSpec>${project.basedir}/src/main/resources/apmapi.yaml</inputSpec>
 							<generatorName>spring</generatorName>
-							<apiPackage>com.baeldung.openapi.api</apiPackage>
-							<modelPackage>com.baeldung.openapi.model</modelPackage>
+							<apiPackage>com.boeing.apmapi.controller</apiPackage>
+							<modelPackage>com.boeing.apmapi.model</modelPackage>
 							<supportingFilesToGenerate>
 								ApiUtil.java
 							</supportingFilesToGenerate>
@@ -104,7 +120,12 @@
 								<disallowAdditionalPropertiesIfNotPresent>false</disallowAdditionalPropertiesIfNotPresent>
 								<documentationProvider>springdoc</documentationProvider>
 								<legacyDiscriminatorBehavior>false</legacyDiscriminatorBehavior>
-								<library>spring-boot</library>
+								<cleanOutput>true</cleanOutput>
+								<anotationLibrary>none</anotationLibrary>
+								<delegatePattern>false</delegatePattern>
+								<requestMappingMode>none</requestMappingMode>
+								<skipDefaultInterface>true</skipDefaultInterface>
+								<useSpringBoot3>true</useSpringBoot3>
 							</configOptions>
 							<openapiNormalizer>REF_AS_PARENT_IN_ALLOF=true</openapiNormalizer>
 						</configuration>

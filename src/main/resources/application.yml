@@ -1,8 +1,8 @@
 spring:
   application:
-    name: demo
+    name: ampapi
   profiles:
-    include: NEO4J
+    default: NEO4j
 server:
   port: 8099
 logging:

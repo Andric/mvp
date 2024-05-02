@@ -3,4 +3,5 @@ spring:
     uri: neo4j+s://ab6fe8d1.databases.neo4j.io
     authentication:
       username: neo4j
-      password: ZE_XUsvca03TFbb6Z3M9CLuE5jHWQuRuBC6DY17yNiU
+      password: ZE_XUsvca03TFbb6Z3M9CLuE5jHW
+

@@ -1,40 +1,44 @@
 package com.boeing.apmapi.dal;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.core.env.Environment;
+import org.springframework.stereotype.Component;
 
 import org.neo4j.driver.AuthTokens;
 import org.neo4j.driver.Driver;
 import org.neo4j.driver.GraphDatabase;
 import org.neo4j.driver.Session;
-import org.neo4j.driver.async.AsyncSession;
-import org.springframework.boot.autoconfigure.AutoConfiguration;
-import org.springframework.stereotype.Component;
 
-@AutoConfiguration
+
 @Component
-public class neo4jaccess {
-    private static final String uri = "bolt://localhost:7687";
-    private static final String user = "neo4j";
-    private static final String password = "password";
+public class Neo4JAccess implements IDataAccess{
 
-    public neo4jaccess(){
-        Driver driver = GraphDatabase.driver(uri, AuthTokens.basic(user, password));
-        try(Session session = driver.session()) {
-            // Code inside the try block
+    private Driver driver;
+   
+    protected Neo4JAccess( @Autowired Environment env){
+       String uri = env.getProperty("spring.neo4j.uri");
+       String username = env.getProperty("spring.neo4j.authentication.username");
+         String password = env.getProperty("spring.neo4j.authentication.password");
+        try{
+            this.driver = GraphDatabase.driver(uri, AuthTokens.basic(username, password));
+            this.driver.verifyConnectivity();
         } catch (Exception e) {
             // Exception handling
+            this.driver = null;
         }
     }
 
-    public static void main(String[] args) {
-        Driver driver = GraphDatabase.driver(uri, AuthTokens.basic(user, password));
-        AsyncSession session = driver.session(AsyncSession.class);
-        session.runAsync("MATCH (a:FunctionalArea) RETURN a.name AS name")
-                .thenCompose(cursor -> cursor.listAsync(record -> record.get("name").asString()))
-                .thenAccept(System.out::println)
-                .exceptionally(error -> {
-                    System.err.println("Error: " + error.getMessage());
-                    return null;
-                });
-        session.closeAsync();
-        driver.closeAsync();
+    public Session getReadSession(){
+        return this.driver.session();
+    }
+    public Session getReadAsyncSession(){
+        return this.driver.session();
+    }
+    public Session getWriteSession(){
+        return this.driver.session();
+    }
+    public Session getWriteAsyncSession(){
+        return this.driver.session();
     }
 }
