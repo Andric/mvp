@@ -58,7 +58,6 @@
 			<artifactId>neo4j-java-driver</artifactId>
 			<version>5.20.0</version>
 		</dependency>
-
 	</dependencies>
 	<repositories>
 		<repository>
@@ -93,10 +92,21 @@
 						</goals>
 						<configuration>
 							<inputSpec>${project.basedir}/src/main/resources/apmapi.yaml</inputSpec>
-							<generatorName>java</generatorName>
+							<generatorName>spring</generatorName>
+							<apiPackage>com.baeldung.openapi.api</apiPackage>
+							<modelPackage>com.baeldung.openapi.model</modelPackage>
+							<supportingFilesToGenerate>
+								ApiUtil.java
+							</supportingFilesToGenerate>
 							<configOptions>
 								<sourceFolder>src/gen/java/main</sourceFolder>
+								<dateLibrary>java8</dateLibrary>
+								<disallowAdditionalPropertiesIfNotPresent>false</disallowAdditionalPropertiesIfNotPresent>
+								<documentationProvider>springdoc</documentationProvider>
+								<legacyDiscriminatorBehavior>false</legacyDiscriminatorBehavior>
+								<library>spring-boot</library>
 							</configOptions>
+							<openapiNormalizer>REF_AS_PARENT_IN_ALLOF=true</openapiNormalizer>
 						</configuration>
 					</execution>
 				</executions>

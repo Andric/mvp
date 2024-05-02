@@ -534,6 +534,8 @@ components:
           type: string
           description: "Name of the type"
           default: "Empty"
+      required:
+        - typeName
     ApiResult:
       type: object
       properties:
@@ -548,19 +550,31 @@ components:
       type: object
       discriminator:
         propertyName: typeName
+        mapping: 
+          CVV: "#/components/schemas/ClientNode"
+          EVV: "#/components/schemas/EngagementNode"
+          FNA: "#/components/schemas/ApmFnaNode"
+          FNG: "#/components/schemas/ApmFngNode"
+          FNC: "#/components/schemas/ApmFncNode"
+          TKK: "#/components/schemas/ApmTaskNode"
+          NTT: "#/components/schemas/ApmNote"
+          Graph: "#/components/schemas/Graph"
+          NodeList: "#/components/schemas/NodeList"
+          Empty: "#/components/schemas/Empty"
+          Error: "#/components/schemas/Error"
       oneOf:
         - $ref: "#/components/schemas/NodeList"
         - $ref: "#/components/schemas/Graph"
         - $ref: "#/components/schemas/Empty"
         - $ref: "#/components/schemas/Error"
         - $ref: "#/components/schemas/ApmNote"
-        - $ref: "#/components/schemas/AmpTaskNode"
+        - $ref: "#/components/schemas/ApmTaskNode"
         - $ref: "#/components/schemas/ClientNode"
         - $ref: "#/components/schemas/EngagementNode"
         - $ref: "#/components/schemas/SaveVersionNode"
-        - $ref: "#/components/schemas/AmpFnaNode"
-        - $ref: "#/components/schemas/AmpFngNode"
-        - $ref: "#/components/schemas/AmpFncNode"
+        - $ref: "#/components/schemas/ApmFnaNode"
+        - $ref: "#/components/schemas/ApmFngNode"
+        - $ref: "#/components/schemas/ApmFncNode"
       description: Container for return values
     Error:
       type: object
@@ -582,6 +596,7 @@ components:
       required:
         - status
         - message
+        - typeName
       example:
         status: "DAL1002"
         message: "Data Request Error "
@@ -604,16 +619,18 @@ components:
       additionalProperties: true
       description: "A discrete value object from the database with base required values and addtional key/value property pairs."
       example:
+        typeName: "FNA"
         dbId: "123"
         labels: ["functionalArea"]
-        orderId: 1.01
+        orderId: 1
       required:
         - typeName
         - labels
+        - nodeId
     ApmNode:
-      type: object
       allOf:
         - $ref: "#/components/schemas/Node"
+      type: object
       properties:
         apmId:
           type: string
@@ -631,6 +648,8 @@ components:
         - apmId
         - sort
     ClientNode:
+      allOf:
+        - $ref: "#/components/schemas/Node"
       type: object
       properties:
         typeName:
@@ -639,9 +658,12 @@ components:
         name:
           type: string
           nullable: false
+      required:
+        - typeName
+        - name
+    EngagementNode:
       allOf:
         - $ref: "#/components/schemas/Node"
-    EngagementNode:
       type: object
       properties:
         typeName:
@@ -650,7 +672,7 @@ components:
         engagementVersion:
           type: integer
           nullable: false
-        boeingAmpVersion:
+        boeingApmVersion:
           type: string
           nullable: false
         createDate:
@@ -663,9 +685,16 @@ components:
           type: boolean
           nullable: false
           default: true
+      required:
+        - typeName
+        - engagementVersion
+        - boeingApmVersion
+        - createDate
+        - createBy
+        - isCurrent
+    SaveVersionNode:
       allOf:
         - $ref: "#/components/schemas/Node"
-    SaveVersionNode:
       type: object
       properties:
         typeName:
@@ -687,25 +716,36 @@ components:
           type: boolean
           nullable: false
           default: true
+      required:
+        - typeName
+        - saveVersion
+        - name
+        - createDate
+        - createBy
+        - isCurrent
+    ApmFnaNode:
       allOf:
-        - $ref: "#/components/schemas/Node"
-    AmpFnaNode:
+        - $ref: "#/components/schemas/ApmNode"
       type: object
       properties:
         typeName:
           type: string
           default: FNA
+      required:
+        - typeName
+    ApmFngNode:
       allOf:
         - $ref: "#/components/schemas/ApmNode"
-    AmpFngNode:
       type: object
       properties:
         typeName:
           type: string
           default: FNG
+      required:
+        - typeName
+    ApmFncNode:
       allOf:
         - $ref: "#/components/schemas/ApmNode"
-    AmpFncNode:
       type: object
       properties:
         typeName:
@@ -715,8 +755,8 @@ components:
           type: string
           nullable: false
           default: ""
-      allOf:
-        - $ref: "#/components/schemas/ApmNode"
+      required:
+        - typeName
     NodeList:
       type: object
       properties:
@@ -729,6 +769,8 @@ components:
           items:
             $ref: "#/components/schemas/Node"
           description: List of Node objects
+      required:
+        - typeName
     Relationship:
       type: object
       properties:
@@ -759,11 +801,40 @@ components:
           $ref: "#/components/schemas/NodeList"
         relationships:
           $ref: "#/components/schemas/RelationshipList"
+      required:
+        - typeName
+        - nodes
+        - relationships
     ApmNote:
-      type: object
       allOf:
         - $ref: "#/components/schemas/Node"
+      type: object
       properties:
+        typeName:
+          type: string
+          default: NTT
+        text:
+          type: string
+          description: note for the node
+        createDate:
+          type: string
+          format: date-time
+          description: date the node was created
+        createBy:
+          $ref: "#/components/schemas/NodeId"
+        isDeleted:
+          type: boolean
+          description: if node is marked for deletion
+      required:
+        - typeName
+    ApmTaskNode:
+      allOf:
+        - $ref: "#/components/schemas/Node"
+      type: object
+      properties:
+        typeName:
+          type: string
+          default: TKK
         text:
           type: string
           description: note for the node
@@ -776,23 +847,8 @@ components:
         isDeleted:
           type: string
           description: user who created the node
-    AmpTaskNode:
-      type: object
-      allOf:
-        - $ref: "#/components/schemas/Node"
-      properties:
-        text:
-          type: string
-          description: note for the node
-        createDate:
-          type: string
-          format: date-time
-          description: date the node was created
-        createBy:
-          $ref: "#/components/schemas/NodeId"
-        isDeleted:
-          type: string
-          description: user who created the node
+      required:
+        - typeName
     MoveNodeInfo:
       type: object
       properties:
@@ -818,5 +874,9 @@ components:
         - TGS # TagSystem
         - TGM # TagMisc
         - UNK # GenericNode
+        - Empty # Empty 
+        - Error # Error
+        - Graph # Graph
+        - NodeList # NodeList
       description: "Name of the node type - primary label/DTO type name. for unknown or mixed list items use GenericNode"
       default: "UNK"
