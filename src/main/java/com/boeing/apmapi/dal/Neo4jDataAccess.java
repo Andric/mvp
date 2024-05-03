@@ -1,7 +1,5 @@
 package com.boeing.apmapi.dal;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
@@ -12,11 +10,11 @@ import org.neo4j.driver.Session;
 
 
 @Component
-public class Neo4JAccess implements IDataAccess{
+public class Neo4jDataAccess implements IDataAccess{
 
     private Driver driver;
    
-    protected Neo4JAccess( @Autowired Environment env){
+    protected Neo4jDataAccess( @Autowired Environment env){
        String uri = env.getProperty("spring.neo4j.uri");
        String username = env.getProperty("spring.neo4j.authentication.username");
          String password = env.getProperty("spring.neo4j.authentication.password");
