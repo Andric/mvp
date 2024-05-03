@@ -5,8 +5,10 @@
  */
 package com.boeing.apmapi.controller;
 
+import com.boeing.apmapi.dal.GetCypher;
 import com.boeing.apmapi.model.ApiResult;
 import com.boeing.apmapi.model.MoveNodeInfo;
+import com.boeing.apmapi.model.Payload;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -15,6 +17,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -26,7 +29,13 @@ import jakarta.annotation.Generated;
 @Validated
 @Tag(name = "clients", description = "the clients API")
 @RestController
+
 public class ClientsApiController {
+    private GetCypher api;
+
+    public ClientsApiController(@Autowired GetCypher getCypher) {
+        api = getCypher;
+    }
     /**
      * DELETE /clients/{clientId}/engagements/{engagementId}/nodes/{nodeId}
      * delete a  node. returns an empty value on success 
@@ -53,9 +62,9 @@ public class ClientsApiController {
     )
     
     ResponseEntity<ApiResult> deleteNode(
-        @Pattern(regexp = "\"^'[0-9]+\\.[A-Z]{3}\\.[0-9]+\\.[0-9]+\\.[0-9]+\\.*[0-9]*\" ") @Parameter(name = "clientId", description = "id for operations on a specific client", required = true, in = ParameterIn.PATH) @PathVariable("clientId") String clientId,
-        @Pattern(regexp = "\"^'[0-9]+\\.[A-Z]{3}\\.[0-9]+\\.[0-9]+\\.[0-9]+\\.*[0-9]*\" ") @Parameter(name = "engagementId", description = "id for operations on a specific engagement", required = true, in = ParameterIn.PATH) @PathVariable("engagementId") String engagementId,
-        @Pattern(regexp = "\"^'[0-9]+\\.[A-Z]{3}\\.[0-9]+\\.[0-9]+\\.[0-9]+\\.*[0-9]*\" ") @Parameter(name = "nodeId", description = "id for operations on a specific node", required = true, in = ParameterIn.PATH) @PathVariable("nodeId") String nodeId
+        @Pattern(regexp = ApiUtil.NODE_ID_REGEX) @Parameter(name = "clientId", description = "id for operations on a specific client", required = true, in = ParameterIn.PATH) @PathVariable("clientId") String clientId,
+        @Pattern(regexp = ApiUtil.NODE_ID_REGEX) @Parameter(name = "engagementId", description = "id for operations on a specific engagement", required = true, in = ParameterIn.PATH) @PathVariable("engagementId") String engagementId,
+        @Pattern(regexp = ApiUtil.NODE_ID_REGEX) @Parameter(name = "nodeId", description = "id for operations on a specific node", required = true, in = ParameterIn.PATH) @PathVariable("nodeId") String nodeId
     ){
         return null;
     }
@@ -69,56 +78,58 @@ public class ClientsApiController {
      * @return 200 response (status code 200)
      */
     @Operation(
-        operationId = "getClient",
-        description = "retrieves a specific client. Boeing only",
-        responses = {
-            @ApiResponse(responseCode = "200", description = "200 response", content = {
-                @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResult.class))
-            })
-        },
-        security = {
-            @SecurityRequirement(name = "boeing-auth", scopes={ "write", "read" })
-        }
+            operationId = "getClient",
+            description = "retrieves a specific client. Boeing only",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "200 response", content = {
+                            @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResult.class))
+                    })
+            },
+            security = {
+                    @SecurityRequirement(name = "boeing-auth", scopes = {"write", "read"})
+            }
     )
     @RequestMapping(
-        method = RequestMethod.GET,
-        value = "/clients/{clientId}",
-        produces = { "application/json" }
+            method = RequestMethod.GET,
+            value = "/clients/{clientId}",
+            produces = {"application/json"}
     )
-    
     ResponseEntity<ApiResult> getClient(
-        @Pattern(regexp = "\"^'[0-9]+\\.[A-Z]{3}\\.[0-9]+\\.[0-9]+\\.[0-9]+\\.*[0-9]*\" ") @Parameter(name = "clientId", description = "id for operations on a specific client", required = true, in = ParameterIn.PATH) @PathVariable("clientId") String clientId
-    );
+            @Pattern(regexp = ApiUtil.NODE_ID_REGEX) @Parameter(name = "clientId", description = "id for operations on a specific client", required = true, in = ParameterIn.PATH) @PathVariable("clientId") String clientId
+    ) {
+        return null;
+    }
 
 
     /**
      * GET /clients/{clientId}/engagements/{engagementId}
      *
-     * @param clientId id for operations on a specific client (required)
+     * @param clientId     id for operations on a specific client (required)
      * @param engagementId id for operations on a specific engagement (required)
      * @return 200 response (status code 200)
      */
     @Operation(
-        operationId = "getClientEngagement",
-        responses = {
-            @ApiResponse(responseCode = "200", description = "200 response", content = {
-                @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResult.class))
-            })
-        },
-        security = {
-            @SecurityRequirement(name = "boeing-auth", scopes={ "write", "read" })
-        }
+            operationId = "getClientEngagement",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "200 response", content = {
+                            @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResult.class))
+                    })
+            },
+            security = {
+                    @SecurityRequirement(name = "boeing-auth", scopes = {"write", "read"})
+            }
     )
     @RequestMapping(
-        method = RequestMethod.GET,
-        value = "/clients/{clientId}/engagements/{engagementId}",
-        produces = { "application/json" }
+            method = RequestMethod.GET,
+            value = "/clients/{clientId}/engagements/{engagementId}",
+            produces = {"application/json"}
     )
-    
     ResponseEntity<ApiResult> getClientEngagement(
-        @Pattern(regexp = "\"^'[0-9]+\\.[A-Z]{3}\\.[0-9]+\\.[0-9]+\\.[0-9]+\\.*[0-9]*\" ") @Parameter(name = "clientId", description = "id for operations on a specific client", required = true, in = ParameterIn.PATH) @PathVariable("clientId") String clientId,
-        @Pattern(regexp = "\"^'[0-9]+\\.[A-Z]{3}\\.[0-9]+\\.[0-9]+\\.[0-9]+\\.*[0-9]*\" ") @Parameter(name = "engagementId", description = "id for operations on a specific engagement", required = true, in = ParameterIn.PATH) @PathVariable("engagementId") String engagementId
-    );
+            @Pattern(regexp = ApiUtil.NODE_ID_REGEX) @Parameter(name = "clientId", description = "id for operations on a specific client", required = true, in = ParameterIn.PATH) @PathVariable("clientId") String clientId,
+            @Pattern(regexp = ApiUtil.NODE_ID_REGEX) @Parameter(name = "engagementId", description = "id for operations on a specific engagement", required = true, in = ParameterIn.PATH) @PathVariable("engagementId") String engagementId
+    ) {
+        return null;
+    }
 
 
     /**
@@ -128,25 +139,26 @@ public class ClientsApiController {
      * @return 200 response (status code 200)
      */
     @Operation(
-        operationId = "getClientEngagements",
-        responses = {
-            @ApiResponse(responseCode = "200", description = "200 response", content = {
-                @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResult.class))
-            })
-        },
-        security = {
-            @SecurityRequirement(name = "boeing-auth", scopes={ "write", "read" })
-        }
+            operationId = "getClientEngagements",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "200 response", content = {
+                            @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResult.class))
+                    })
+            },
+            security = {
+                    @SecurityRequirement(name = "boeing-auth", scopes = {"write", "read"})
+            }
     )
     @RequestMapping(
-        method = RequestMethod.GET,
-        value = "/clients/{clientId}/engagements",
-        produces = { "application/json" }
+            method = RequestMethod.GET,
+            value = "/clients/{clientId}/engagements",
+            produces = {"application/json"}
     )
-    
     ResponseEntity<ApiResult> getClientEngagements(
-        @Pattern(regexp = "\"^'[0-9]+\\.[A-Z]{3}\\.[0-9]+\\.[0-9]+\\.[0-9]+\\.*[0-9]*\" ") @Parameter(name = "clientId", description = "id for operations on a specific client", required = true, in = ParameterIn.PATH) @PathVariable("clientId") String clientId
-    );
+            @Pattern(regexp = ApiUtil.NODE_ID_REGEX) @Parameter(name = "clientId", description = "id for operations on a specific client", required = true, in = ParameterIn.PATH) @PathVariable("clientId") String clientId
+    ) {
+        return null;
+    }
 
 
     /**
@@ -157,26 +169,27 @@ public class ClientsApiController {
      * @return 200 response (status code 200)
      */
     @Operation(
-        operationId = "getClientGraph",
-        description = "retrieves client and client engagements - those two levels only. Boeing only",
-        responses = {
-            @ApiResponse(responseCode = "200", description = "200 response", content = {
-                @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResult.class))
-            })
-        },
-        security = {
-            @SecurityRequirement(name = "boeing-auth", scopes={ "write", "read" })
-        }
+            operationId = "getClientGraph",
+            description = "retrieves client and client engagements - those two levels only. Boeing only",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "200 response", content = {
+                            @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResult.class))
+                    })
+            },
+            security = {
+                    @SecurityRequirement(name = "boeing-auth", scopes = {"write", "read"})
+            }
     )
     @RequestMapping(
-        method = RequestMethod.GET,
-        value = "/clients/{clientId}/graph",
-        produces = { "application/json" }
+            method = RequestMethod.GET,
+            value = "/clients/{clientId}/graph",
+            produces = {"application/json"}
     )
-    
     ResponseEntity<ApiResult> getClientGraph(
-        @Pattern(regexp = "\"^'[0-9]+\\.[A-Z]{3}\\.[0-9]+\\.[0-9]+\\.[0-9]+\\.*[0-9]*\" ") @Parameter(name = "clientId", description = "id for operations on a specific client", required = true, in = ParameterIn.PATH) @PathVariable("clientId") String clientId
-    );
+            @Pattern(regexp = ApiUtil.NODE_ID_REGEX) @Parameter(name = "clientId", description = "id for operations on a specific client", required = true, in = ParameterIn.PATH) @PathVariable("clientId") String clientId
+    ) {
+        return null;
+    }
 
 
     /**
@@ -202,7 +215,11 @@ public class ClientsApiController {
         value = "/clients",
         produces = { "application/json" }
     )
-    ResponseEntity<ApiResult> getClients();
+    ResponseEntity<ApiResult> getClients(){
+        var nodes =  api.getNodes("Client");
+        var res = new ApiResult(nodes, true);
+        return ResponseEntity.ok(res);
+    }
 
 
     /**
@@ -212,505 +229,520 @@ public class ClientsApiController {
      * @return 200 response (status code 200)
      */
     @Operation(
-        operationId = "getClientsGraph",
-        description = "retrieves clients and the engagements for all clients - those two levels only. Boeing only",
-        responses = {
-            @ApiResponse(responseCode = "200", description = "200 response", content = {
-                @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResult.class))
-            })
-        },
-        security = {
-            @SecurityRequirement(name = "boeing-auth", scopes={ "write", "read" })
-        }
+            operationId = "getClientsGraph",
+            description = "retrieves clients and the engagements for all clients - those two levels only. Boeing only",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "200 response", content = {
+                            @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResult.class))
+                    })
+            },
+            security = {
+                    @SecurityRequirement(name = "boeing-auth", scopes = {"write", "read"})
+            }
     )
     @RequestMapping(
-        method = RequestMethod.GET,
-        value = "/clients/graph",
-        produces = { "application/json" }
+            method = RequestMethod.GET,
+            value = "/clients/graph",
+            produces = {"application/json"}
     )
-    
     ResponseEntity<ApiResult> getClientsGraph(
-        
-    );
+
+    ) {
+        return null;
+    }
 
 
     /**
      * GET /clients/{clientId}/engagements/{engagementId}/functionalareas/{functionalAreaId}/functionalgroups/{functionalGroupId}/functions/{functionId}
      *
-     * @param clientId id for operations on a specific client (required)
-     * @param engagementId id for operations on a specific engagement (required)
-     * @param functionalAreaId id for the required functionalArea node (required)
+     * @param clientId          id for operations on a specific client (required)
+     * @param engagementId      id for operations on a specific engagement (required)
+     * @param functionalAreaId  id for the required functionalArea node (required)
      * @param functionalGroupId id for the required functionalGroup node (required)
-     * @param functionId id for the required function node (required)
+     * @param functionId        id for the required function node (required)
      * @return 200 response (status code 200)
      */
     @Operation(
-        operationId = "getFunction",
-        responses = {
-            @ApiResponse(responseCode = "200", description = "200 response", content = {
-                @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResult.class))
-            })
-        },
-        security = {
-            @SecurityRequirement(name = "boeing-auth", scopes={ "write", "read" })
-        }
+            operationId = "getFunction",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "200 response", content = {
+                            @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResult.class))
+                    })
+            },
+            security = {
+                    @SecurityRequirement(name = "boeing-auth", scopes = {"write", "read"})
+            }
     )
     @RequestMapping(
-        method = RequestMethod.GET,
-        value = "/clients/{clientId}/engagements/{engagementId}/functionalareas/{functionalAreaId}/functionalgroups/{functionalGroupId}/functions/{functionId}",
-        produces = { "application/json" }
+            method = RequestMethod.GET,
+            value = "/clients/{clientId}/engagements/{engagementId}/functionalareas/{functionalAreaId}/functionalgroups/{functionalGroupId}/functions/{functionId}",
+            produces = {"application/json"}
     )
-    
     ResponseEntity<ApiResult> getFunction(
-        @Pattern(regexp = "\"^'[0-9]+\\.[A-Z]{3}\\.[0-9]+\\.[0-9]+\\.[0-9]+\\.*[0-9]*\" ") @Parameter(name = "clientId", description = "id for operations on a specific client", required = true, in = ParameterIn.PATH) @PathVariable("clientId") String clientId,
-        @Pattern(regexp = "\"^'[0-9]+\\.[A-Z]{3}\\.[0-9]+\\.[0-9]+\\.[0-9]+\\.*[0-9]*\" ") @Parameter(name = "engagementId", description = "id for operations on a specific engagement", required = true, in = ParameterIn.PATH) @PathVariable("engagementId") String engagementId,
-        @Pattern(regexp = "\"^'[0-9]+\\.[A-Z]{3}\\.[0-9]+\\.[0-9]+\\.[0-9]+\\.*[0-9]*\" ") @Parameter(name = "functionalAreaId", description = "id for the required functionalArea node", required = true, in = ParameterIn.PATH) @PathVariable("functionalAreaId") String functionalAreaId,
-        @Pattern(regexp = "\"^'[0-9]+\\.[A-Z]{3}\\.[0-9]+\\.[0-9]+\\.[0-9]+\\.*[0-9]*\" ") @Parameter(name = "functionalGroupId", description = "id for the required functionalGroup node", required = true, in = ParameterIn.PATH) @PathVariable("functionalGroupId") String functionalGroupId,
-        @Pattern(regexp = "\"^'[0-9]+\\.[A-Z]{3}\\.[0-9]+\\.[0-9]+\\.[0-9]+\\.*[0-9]*\" ") @Parameter(name = "functionId", description = "id for the required function node", required = true, in = ParameterIn.PATH) @PathVariable("functionId") String functionId
-    );
+            @Pattern(regexp = ApiUtil.NODE_ID_REGEX) @Parameter(name = "clientId", description = "id for operations on a specific client", required = true, in = ParameterIn.PATH) @PathVariable("clientId") String clientId,
+            @Pattern(regexp = ApiUtil.NODE_ID_REGEX) @Parameter(name = "engagementId", description = "id for operations on a specific engagement", required = true, in = ParameterIn.PATH) @PathVariable("engagementId") String engagementId,
+            @Pattern(regexp = ApiUtil.NODE_ID_REGEX) @Parameter(name = "functionalAreaId", description = "id for the required functionalArea node", required = true, in = ParameterIn.PATH) @PathVariable("functionalAreaId") String functionalAreaId,
+            @Pattern(regexp = ApiUtil.NODE_ID_REGEX) @Parameter(name = "functionalGroupId", description = "id for the required functionalGroup node", required = true, in = ParameterIn.PATH) @PathVariable("functionalGroupId") String functionalGroupId,
+            @Pattern(regexp = ApiUtil.NODE_ID_REGEX) @Parameter(name = "functionId", description = "id for the required function node", required = true, in = ParameterIn.PATH) @PathVariable("functionId") String functionId
+    ) {
+        return null;
+    }
 
 
     /**
      * GET /clients/{clientId}/engagements/{engagementId}/functionalareas/{functionalAreaId}/functionalgroups/{functionalGroupId}/functions/{functionId}/graph
      *
-     * @param clientId id for operations on a specific client (required)
-     * @param engagementId id for operations on a specific engagement (required)
-     * @param functionalAreaId id for the required functionalArea node (required)
+     * @param clientId          id for operations on a specific client (required)
+     * @param engagementId      id for operations on a specific engagement (required)
+     * @param functionalAreaId  id for the required functionalArea node (required)
      * @param functionalGroupId id for the required functionalGroup node (required)
-     * @param functionId id for the required function node (required)
-     * @param graphdepth how many levels to return. default 3 (optional, default to 9)
+     * @param functionId        id for the required function node (required)
+     * @param graphdepth        how many levels to return. default 3 (optional, default to 9)
      * @return 200 response (status code 200)
      */
     @Operation(
-        operationId = "getFunctionGraph",
-        responses = {
-            @ApiResponse(responseCode = "200", description = "200 response", content = {
-                @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResult.class))
-            })
-        },
-        security = {
-            @SecurityRequirement(name = "boeing-auth", scopes={ "write", "read" })
-        }
+            operationId = "getFunctionGraph",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "200 response", content = {
+                            @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResult.class))
+                    })
+            },
+            security = {
+                    @SecurityRequirement(name = "boeing-auth", scopes = {"write", "read"})
+            }
     )
     @RequestMapping(
-        method = RequestMethod.GET,
-        value = "/clients/{clientId}/engagements/{engagementId}/functionalareas/{functionalAreaId}/functionalgroups/{functionalGroupId}/functions/{functionId}/graph",
-        produces = { "application/json" }
+            method = RequestMethod.GET,
+            value = "/clients/{clientId}/engagements/{engagementId}/functionalareas/{functionalAreaId}/functionalgroups/{functionalGroupId}/functions/{functionId}/graph",
+            produces = {"application/json"}
     )
-    
     ResponseEntity<ApiResult> getFunctionGraph(
-        @Pattern(regexp = "\"^'[0-9]+\\.[A-Z]{3}\\.[0-9]+\\.[0-9]+\\.[0-9]+\\.*[0-9]*\" ") @Parameter(name = "clientId", description = "id for operations on a specific client", required = true, in = ParameterIn.PATH) @PathVariable("clientId") String clientId,
-        @Pattern(regexp = "\"^'[0-9]+\\.[A-Z]{3}\\.[0-9]+\\.[0-9]+\\.[0-9]+\\.*[0-9]*\" ") @Parameter(name = "engagementId", description = "id for operations on a specific engagement", required = true, in = ParameterIn.PATH) @PathVariable("engagementId") String engagementId,
-        @Pattern(regexp = "\"^'[0-9]+\\.[A-Z]{3}\\.[0-9]+\\.[0-9]+\\.[0-9]+\\.*[0-9]*\" ") @Parameter(name = "functionalAreaId", description = "id for the required functionalArea node", required = true, in = ParameterIn.PATH) @PathVariable("functionalAreaId") String functionalAreaId,
-        @Pattern(regexp = "\"^'[0-9]+\\.[A-Z]{3}\\.[0-9]+\\.[0-9]+\\.[0-9]+\\.*[0-9]*\" ") @Parameter(name = "functionalGroupId", description = "id for the required functionalGroup node", required = true, in = ParameterIn.PATH) @PathVariable("functionalGroupId") String functionalGroupId,
-        @Pattern(regexp = "\"^'[0-9]+\\.[A-Z]{3}\\.[0-9]+\\.[0-9]+\\.[0-9]+\\.*[0-9]*\" ") @Parameter(name = "functionId", description = "id for the required function node", required = true, in = ParameterIn.PATH) @PathVariable("functionId") String functionId,
-        @Min(1) @Parameter(name = "graphdepth", description = "how many levels to return. default 3", in = ParameterIn.QUERY) @Valid @RequestParam(value = "graphdepth", required = false, defaultValue = "9") Integer graphdepth
-    );
+            @Pattern(regexp = ApiUtil.NODE_ID_REGEX) @Parameter(name = "clientId", description = "id for operations on a specific client", required = true, in = ParameterIn.PATH) @PathVariable("clientId") String clientId,
+            @Pattern(regexp = ApiUtil.NODE_ID_REGEX) @Parameter(name = "engagementId", description = "id for operations on a specific engagement", required = true, in = ParameterIn.PATH) @PathVariable("engagementId") String engagementId,
+            @Pattern(regexp = ApiUtil.NODE_ID_REGEX) @Parameter(name = "functionalAreaId", description = "id for the required functionalArea node", required = true, in = ParameterIn.PATH) @PathVariable("functionalAreaId") String functionalAreaId,
+            @Pattern(regexp = ApiUtil.NODE_ID_REGEX) @Parameter(name = "functionalGroupId", description = "id for the required functionalGroup node", required = true, in = ParameterIn.PATH) @PathVariable("functionalGroupId") String functionalGroupId,
+            @Pattern(regexp = ApiUtil.NODE_ID_REGEX) @Parameter(name = "functionId", description = "id for the required function node", required = true, in = ParameterIn.PATH) @PathVariable("functionId") String functionId,
+            @Min(1) @Parameter(name = "graphdepth", description = "how many levels to return. default 3", in = ParameterIn.QUERY) @Valid @RequestParam(value = "graphdepth", required = false, defaultValue = "9") Integer graphdepth
+    ) {
+        return null;
+    }
 
 
     /**
      * GET /clients/{clientId}/engagements/{engagementId}/functionalareas/{functionalAreaId}
      *
-     * @param clientId id for operations on a specific client (required)
-     * @param engagementId id for operations on a specific engagement (required)
+     * @param clientId         id for operations on a specific client (required)
+     * @param engagementId     id for operations on a specific engagement (required)
      * @param functionalAreaId id for the required functionalArea node (required)
      * @return 200 response (status code 200)
      */
     @Operation(
-        operationId = "getFunctionalArea",
-        responses = {
-            @ApiResponse(responseCode = "200", description = "200 response", content = {
-                @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResult.class))
-            })
-        },
-        security = {
-            @SecurityRequirement(name = "boeing-auth", scopes={ "write", "read" })
-        }
+            operationId = "getFunctionalArea",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "200 response", content = {
+                            @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResult.class))
+                    })
+            },
+            security = {
+                    @SecurityRequirement(name = "boeing-auth", scopes = {"write", "read"})
+            }
     )
     @RequestMapping(
-        method = RequestMethod.GET,
-        value = "/clients/{clientId}/engagements/{engagementId}/functionalareas/{functionalAreaId}",
-        produces = { "application/json" }
+            method = RequestMethod.GET,
+            value = "/clients/{clientId}/engagements/{engagementId}/functionalareas/{functionalAreaId}",
+            produces = {"application/json"}
     )
-    
     ResponseEntity<ApiResult> getFunctionalArea(
-        @Pattern(regexp = "\"^'[0-9]+\\.[A-Z]{3}\\.[0-9]+\\.[0-9]+\\.[0-9]+\\.*[0-9]*\" ") @Parameter(name = "clientId", description = "id for operations on a specific client", required = true, in = ParameterIn.PATH) @PathVariable("clientId") String clientId,
-        @Pattern(regexp = "\"^'[0-9]+\\.[A-Z]{3}\\.[0-9]+\\.[0-9]+\\.[0-9]+\\.*[0-9]*\" ") @Parameter(name = "engagementId", description = "id for operations on a specific engagement", required = true, in = ParameterIn.PATH) @PathVariable("engagementId") String engagementId,
-        @Pattern(regexp = "\"^'[0-9]+\\.[A-Z]{3}\\.[0-9]+\\.[0-9]+\\.[0-9]+\\.*[0-9]*\" ") @Parameter(name = "functionalAreaId", description = "id for the required functionalArea node", required = true, in = ParameterIn.PATH) @PathVariable("functionalAreaId") String functionalAreaId
-    );
+            @Pattern(regexp = ApiUtil.NODE_ID_REGEX) @Parameter(name = "clientId", description = "id for operations on a specific client", required = true, in = ParameterIn.PATH) @PathVariable("clientId") String clientId,
+            @Pattern(regexp = ApiUtil.NODE_ID_REGEX) @Parameter(name = "engagementId", description = "id for operations on a specific engagement", required = true, in = ParameterIn.PATH) @PathVariable("engagementId") String engagementId,
+            @Pattern(regexp = ApiUtil.NODE_ID_REGEX) @Parameter(name = "functionalAreaId", description = "id for the required functionalArea node", required = true, in = ParameterIn.PATH) @PathVariable("functionalAreaId") String functionalAreaId
+    ) {
+        return null;
+    }
 
 
     /**
      * GET /clients/{clientId}/engagements/{engagementId}/functionalareas/{functionalAreaId}/graph
      *
-     * @param clientId id for operations on a specific client (required)
-     * @param engagementId id for operations on a specific engagement (required)
+     * @param clientId         id for operations on a specific client (required)
+     * @param engagementId     id for operations on a specific engagement (required)
      * @param functionalAreaId id for the required functionalArea node (required)
-     * @param graphdepth how many levels to return. default 3 (optional, default to 9)
+     * @param graphdepth       how many levels to return. default 3 (optional, default to 9)
      * @return 200 response (status code 200)
      */
     @Operation(
-        operationId = "getFunctionalAreaGraph",
-        responses = {
-            @ApiResponse(responseCode = "200", description = "200 response", content = {
-                @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResult.class))
-            })
-        },
-        security = {
-            @SecurityRequirement(name = "boeing-auth", scopes={ "write", "read" })
-        }
+            operationId = "getFunctionalAreaGraph",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "200 response", content = {
+                            @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResult.class))
+                    })
+            },
+            security = {
+                    @SecurityRequirement(name = "boeing-auth", scopes = {"write", "read"})
+            }
     )
     @RequestMapping(
-        method = RequestMethod.GET,
-        value = "/clients/{clientId}/engagements/{engagementId}/functionalareas/{functionalAreaId}/graph",
-        produces = { "application/json" }
+            method = RequestMethod.GET,
+            value = "/clients/{clientId}/engagements/{engagementId}/functionalareas/{functionalAreaId}/graph",
+            produces = {"application/json"}
     )
-    
     ResponseEntity<ApiResult> getFunctionalAreaGraph(
-        @Pattern(regexp = "\"^'[0-9]+\\.[A-Z]{3}\\.[0-9]+\\.[0-9]+\\.[0-9]+\\.*[0-9]*\" ") @Parameter(name = "clientId", description = "id for operations on a specific client", required = true, in = ParameterIn.PATH) @PathVariable("clientId") String clientId,
-        @Pattern(regexp = "\"^'[0-9]+\\.[A-Z]{3}\\.[0-9]+\\.[0-9]+\\.[0-9]+\\.*[0-9]*\" ") @Parameter(name = "engagementId", description = "id for operations on a specific engagement", required = true, in = ParameterIn.PATH) @PathVariable("engagementId") String engagementId,
-        @Pattern(regexp = "\"^'[0-9]+\\.[A-Z]{3}\\.[0-9]+\\.[0-9]+\\.[0-9]+\\.*[0-9]*\" ") @Parameter(name = "functionalAreaId", description = "id for the required functionalArea node", required = true, in = ParameterIn.PATH) @PathVariable("functionalAreaId") String functionalAreaId,
-        @Min(1) @Parameter(name = "graphdepth", description = "how many levels to return. default 3", in = ParameterIn.QUERY) @Valid @RequestParam(value = "graphdepth", required = false, defaultValue = "9") Integer graphdepth
-    );
+            @Pattern(regexp = ApiUtil.NODE_ID_REGEX) @Parameter(name = "clientId", description = "id for operations on a specific client", required = true, in = ParameterIn.PATH) @PathVariable("clientId") String clientId,
+            @Pattern(regexp = ApiUtil.NODE_ID_REGEX) @Parameter(name = "engagementId", description = "id for operations on a specific engagement", required = true, in = ParameterIn.PATH) @PathVariable("engagementId") String engagementId,
+            @Pattern(regexp = ApiUtil.NODE_ID_REGEX) @Parameter(name = "functionalAreaId", description = "id for the required functionalArea node", required = true, in = ParameterIn.PATH) @PathVariable("functionalAreaId") String functionalAreaId,
+            @Min(1) @Parameter(name = "graphdepth", description = "how many levels to return. default 3", in = ParameterIn.QUERY) @Valid @RequestParam(value = "graphdepth", required = false, defaultValue = "9") Integer graphdepth
+    ) {
+        return null;
+    }
 
 
     /**
      * GET /clients/{clientId}/engagements/{engagementId}/functionalareas
      *
-     * @param clientId id for operations on a specific client (required)
+     * @param clientId     id for operations on a specific client (required)
      * @param engagementId id for operations on a specific engagement (required)
      * @return 200 response (status code 200)
      */
     @Operation(
-        operationId = "getFunctionalAreas",
-        responses = {
-            @ApiResponse(responseCode = "200", description = "200 response", content = {
-                @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResult.class))
-            })
-        },
-        security = {
-            @SecurityRequirement(name = "boeing-auth", scopes={ "write", "read" })
-        }
+            operationId = "getFunctionalAreas",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "200 response", content = {
+                            @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResult.class))
+                    })
+            },
+            security = {
+                    @SecurityRequirement(name = "boeing-auth", scopes = {"write", "read"})
+            }
     )
     @RequestMapping(
-        method = RequestMethod.GET,
-        value = "/clients/{clientId}/engagements/{engagementId}/functionalareas",
-        produces = { "application/json" }
+            method = RequestMethod.GET,
+            value = "/clients/{clientId}/engagements/{engagementId}/functionalareas",
+            produces = {"application/json"}
     )
-    
     ResponseEntity<ApiResult> getFunctionalAreas(
-        @Pattern(regexp = "\"^'[0-9]+\\.[A-Z]{3}\\.[0-9]+\\.[0-9]+\\.[0-9]+\\.*[0-9]*\" ") @Parameter(name = "clientId", description = "id for operations on a specific client", required = true, in = ParameterIn.PATH) @PathVariable("clientId") String clientId,
-        @Pattern(regexp = "\"^'[0-9]+\\.[A-Z]{3}\\.[0-9]+\\.[0-9]+\\.[0-9]+\\.*[0-9]*\" ") @Parameter(name = "engagementId", description = "id for operations on a specific engagement", required = true, in = ParameterIn.PATH) @PathVariable("engagementId") String engagementId
-    );
+            @Pattern(regexp = ApiUtil.NODE_ID_REGEX) @Parameter(name = "clientId", description = "id for operations on a specific client", required = true, in = ParameterIn.PATH) @PathVariable("clientId") String clientId,
+            @Pattern(regexp = ApiUtil.NODE_ID_REGEX) @Parameter(name = "engagementId", description = "id for operations on a specific engagement", required = true, in = ParameterIn.PATH) @PathVariable("engagementId") String engagementId
+    ) {
+        return null;
+    }
 
 
     /**
      * GET /clients/{clientId}/engagements/{engagementId}/functionalareas/graph
      *
-     * @param clientId id for operations on a specific client (required)
+     * @param clientId     id for operations on a specific client (required)
      * @param engagementId id for operations on a specific engagement (required)
-     * @param graphdepth how many levels to return. default 3 (optional, default to 9)
+     * @param graphdepth   how many levels to return. default 3 (optional, default to 9)
      * @return 200 response (status code 200)
      */
     @Operation(
-        operationId = "getFunctionalAreasGraph",
-        responses = {
-            @ApiResponse(responseCode = "200", description = "200 response", content = {
-                @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResult.class))
-            })
-        },
-        security = {
-            @SecurityRequirement(name = "boeing-auth", scopes={ "write", "read" })
-        }
+            operationId = "getFunctionalAreasGraph",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "200 response", content = {
+                            @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResult.class))
+                    })
+            },
+            security = {
+                    @SecurityRequirement(name = "boeing-auth", scopes = {"write", "read"})
+            }
     )
     @RequestMapping(
-        method = RequestMethod.GET,
-        value = "/clients/{clientId}/engagements/{engagementId}/functionalareas/graph",
-        produces = { "application/json" }
+            method = RequestMethod.GET,
+            value = "/clients/{clientId}/engagements/{engagementId}/functionalareas/graph",
+            produces = {"application/json"}
     )
-    
     ResponseEntity<ApiResult> getFunctionalAreasGraph(
-        @Pattern(regexp = "\"^'[0-9]+\\.[A-Z]{3}\\.[0-9]+\\.[0-9]+\\.[0-9]+\\.*[0-9]*\" ") @Parameter(name = "clientId", description = "id for operations on a specific client", required = true, in = ParameterIn.PATH) @PathVariable("clientId") String clientId,
-        @Pattern(regexp = "\"^'[0-9]+\\.[A-Z]{3}\\.[0-9]+\\.[0-9]+\\.[0-9]+\\.*[0-9]*\" ") @Parameter(name = "engagementId", description = "id for operations on a specific engagement", required = true, in = ParameterIn.PATH) @PathVariable("engagementId") String engagementId,
-        @Min(1) @Parameter(name = "graphdepth", description = "how many levels to return. default 3", in = ParameterIn.QUERY) @Valid @RequestParam(value = "graphdepth", required = false, defaultValue = "9") Integer graphdepth
-    );
+            @Pattern(regexp = ApiUtil.NODE_ID_REGEX) @Parameter(name = "clientId", description = "id for operations on a specific client", required = true, in = ParameterIn.PATH) @PathVariable("clientId") String clientId,
+            @Pattern(regexp = ApiUtil.NODE_ID_REGEX) @Parameter(name = "engagementId", description = "id for operations on a specific engagement", required = true, in = ParameterIn.PATH) @PathVariable("engagementId") String engagementId,
+            @Min(1) @Parameter(name = "graphdepth", description = "how many levels to return. default 3", in = ParameterIn.QUERY) @Valid @RequestParam(value = "graphdepth", required = false, defaultValue = "9") Integer graphdepth
+    ) {
+        return null;
+    }
 
 
     /**
      * GET /clients/{clientId}/engagements/{engagementId}/functionalareas/{functionalAreaId}/functionalgroups/{functionalGroupId}
      *
-     * @param clientId id for operations on a specific client (required)
-     * @param engagementId id for operations on a specific engagement (required)
-     * @param functionalAreaId id for the required functionalArea node (required)
+     * @param clientId          id for operations on a specific client (required)
+     * @param engagementId      id for operations on a specific engagement (required)
+     * @param functionalAreaId  id for the required functionalArea node (required)
      * @param functionalGroupId id for the required functionalGroup node (required)
      * @return 200 response (status code 200)
      */
     @Operation(
-        operationId = "getFunctionalGroup",
-        responses = {
-            @ApiResponse(responseCode = "200", description = "200 response", content = {
-                @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResult.class))
-            })
-        },
-        security = {
-            @SecurityRequirement(name = "boeing-auth", scopes={ "write", "read" })
-        }
+            operationId = "getFunctionalGroup",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "200 response", content = {
+                            @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResult.class))
+                    })
+            },
+            security = {
+                    @SecurityRequirement(name = "boeing-auth", scopes = {"write", "read"})
+            }
     )
     @RequestMapping(
-        method = RequestMethod.GET,
-        value = "/clients/{clientId}/engagements/{engagementId}/functionalareas/{functionalAreaId}/functionalgroups/{functionalGroupId}",
-        produces = { "application/json" }
+            method = RequestMethod.GET,
+            value = "/clients/{clientId}/engagements/{engagementId}/functionalareas/{functionalAreaId}/functionalgroups/{functionalGroupId}",
+            produces = {"application/json"}
     )
-    
     ResponseEntity<ApiResult> getFunctionalGroup(
-        @Pattern(regexp = "\"^'[0-9]+\\.[A-Z]{3}\\.[0-9]+\\.[0-9]+\\.[0-9]+\\.*[0-9]*\" ") @Parameter(name = "clientId", description = "id for operations on a specific client", required = true, in = ParameterIn.PATH) @PathVariable("clientId") String clientId,
-        @Pattern(regexp = "\"^'[0-9]+\\.[A-Z]{3}\\.[0-9]+\\.[0-9]+\\.[0-9]+\\.*[0-9]*\" ") @Parameter(name = "engagementId", description = "id for operations on a specific engagement", required = true, in = ParameterIn.PATH) @PathVariable("engagementId") String engagementId,
-        @Pattern(regexp = "\"^'[0-9]+\\.[A-Z]{3}\\.[0-9]+\\.[0-9]+\\.[0-9]+\\.*[0-9]*\" ") @Parameter(name = "functionalAreaId", description = "id for the required functionalArea node", required = true, in = ParameterIn.PATH) @PathVariable("functionalAreaId") String functionalAreaId,
-        @Pattern(regexp = "\"^'[0-9]+\\.[A-Z]{3}\\.[0-9]+\\.[0-9]+\\.[0-9]+\\.*[0-9]*\" ") @Parameter(name = "functionalGroupId", description = "id for the required functionalGroup node", required = true, in = ParameterIn.PATH) @PathVariable("functionalGroupId") String functionalGroupId
-    );
+            @Pattern(regexp = ApiUtil.NODE_ID_REGEX) @Parameter(name = "clientId", description = "id for operations on a specific client", required = true, in = ParameterIn.PATH) @PathVariable("clientId") String clientId,
+            @Pattern(regexp = ApiUtil.NODE_ID_REGEX) @Parameter(name = "engagementId", description = "id for operations on a specific engagement", required = true, in = ParameterIn.PATH) @PathVariable("engagementId") String engagementId,
+            @Pattern(regexp = ApiUtil.NODE_ID_REGEX) @Parameter(name = "functionalAreaId", description = "id for the required functionalArea node", required = true, in = ParameterIn.PATH) @PathVariable("functionalAreaId") String functionalAreaId,
+            @Pattern(regexp = ApiUtil.NODE_ID_REGEX) @Parameter(name = "functionalGroupId", description = "id for the required functionalGroup node", required = true, in = ParameterIn.PATH) @PathVariable("functionalGroupId") String functionalGroupId
+    ) {
+        return null;
+    }
 
 
     /**
      * GET /clients/{clientId}/engagements/{engagementId}/functionalareas/{functionalAreaId}/functionalgroups/{functionalGroupId}/graph
      *
-     * @param clientId id for operations on a specific client (required)
-     * @param engagementId id for operations on a specific engagement (required)
-     * @param functionalAreaId id for the required functionalArea node (required)
+     * @param clientId          id for operations on a specific client (required)
+     * @param engagementId      id for operations on a specific engagement (required)
+     * @param functionalAreaId  id for the required functionalArea node (required)
      * @param functionalGroupId id for the required functionalGroup node (required)
-     * @param graphdepth how many levels to return. default 3 (optional, default to 9)
+     * @param graphdepth        how many levels to return. default 3 (optional, default to 9)
      * @return 200 response (status code 200)
      */
     @Operation(
-        operationId = "getFunctionalGroupGraph",
-        responses = {
-            @ApiResponse(responseCode = "200", description = "200 response", content = {
-                @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResult.class))
-            })
-        },
-        security = {
-            @SecurityRequirement(name = "boeing-auth", scopes={ "write", "read" })
-        }
+            operationId = "getFunctionalGroupGraph",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "200 response", content = {
+                            @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResult.class))
+                    })
+            },
+            security = {
+                    @SecurityRequirement(name = "boeing-auth", scopes = {"write", "read"})
+            }
     )
     @RequestMapping(
-        method = RequestMethod.GET,
-        value = "/clients/{clientId}/engagements/{engagementId}/functionalareas/{functionalAreaId}/functionalgroups/{functionalGroupId}/graph",
-        produces = { "application/json" }
+            method = RequestMethod.GET,
+            value = "/clients/{clientId}/engagements/{engagementId}/functionalareas/{functionalAreaId}/functionalgroups/{functionalGroupId}/graph",
+            produces = {"application/json"}
     )
-    
     ResponseEntity<ApiResult> getFunctionalGroupGraph(
-        @Pattern(regexp = "\"^'[0-9]+\\.[A-Z]{3}\\.[0-9]+\\.[0-9]+\\.[0-9]+\\.*[0-9]*\" ") @Parameter(name = "clientId", description = "id for operations on a specific client", required = true, in = ParameterIn.PATH) @PathVariable("clientId") String clientId,
-        @Pattern(regexp = "\"^'[0-9]+\\.[A-Z]{3}\\.[0-9]+\\.[0-9]+\\.[0-9]+\\.*[0-9]*\" ") @Parameter(name = "engagementId", description = "id for operations on a specific engagement", required = true, in = ParameterIn.PATH) @PathVariable("engagementId") String engagementId,
-        @Pattern(regexp = "\"^'[0-9]+\\.[A-Z]{3}\\.[0-9]+\\.[0-9]+\\.[0-9]+\\.*[0-9]*\" ") @Parameter(name = "functionalAreaId", description = "id for the required functionalArea node", required = true, in = ParameterIn.PATH) @PathVariable("functionalAreaId") String functionalAreaId,
-        @Pattern(regexp = "\"^'[0-9]+\\.[A-Z]{3}\\.[0-9]+\\.[0-9]+\\.[0-9]+\\.*[0-9]*\" ") @Parameter(name = "functionalGroupId", description = "id for the required functionalGroup node", required = true, in = ParameterIn.PATH) @PathVariable("functionalGroupId") String functionalGroupId,
-        @Min(1) @Parameter(name = "graphdepth", description = "how many levels to return. default 3", in = ParameterIn.QUERY) @Valid @RequestParam(value = "graphdepth", required = false, defaultValue = "9") Integer graphdepth
-    );
+            @Pattern(regexp = ApiUtil.NODE_ID_REGEX) @Parameter(name = "clientId", description = "id for operations on a specific client", required = true, in = ParameterIn.PATH) @PathVariable("clientId") String clientId,
+            @Pattern(regexp = ApiUtil.NODE_ID_REGEX) @Parameter(name = "engagementId", description = "id for operations on a specific engagement", required = true, in = ParameterIn.PATH) @PathVariable("engagementId") String engagementId,
+            @Pattern(regexp = ApiUtil.NODE_ID_REGEX) @Parameter(name = "functionalAreaId", description = "id for the required functionalArea node", required = true, in = ParameterIn.PATH) @PathVariable("functionalAreaId") String functionalAreaId,
+            @Pattern(regexp = ApiUtil.NODE_ID_REGEX) @Parameter(name = "functionalGroupId", description = "id for the required functionalGroup node", required = true, in = ParameterIn.PATH) @PathVariable("functionalGroupId") String functionalGroupId,
+            @Min(1) @Parameter(name = "graphdepth", description = "how many levels to return. default 3", in = ParameterIn.QUERY) @Valid @RequestParam(value = "graphdepth", required = false, defaultValue = "9") Integer graphdepth
+    ) {
+        return null;
+    }
 
 
     /**
      * GET /clients/{clientId}/engagements/{engagementId}/functionalareas/{functionalAreaId}/functionalgroups
      *
-     * @param clientId id for operations on a specific client (required)
-     * @param engagementId id for operations on a specific engagement (required)
+     * @param clientId         id for operations on a specific client (required)
+     * @param engagementId     id for operations on a specific engagement (required)
      * @param functionalAreaId id for the required functionalArea node (required)
      * @return 200 response (status code 200)
      */
     @Operation(
-        operationId = "getFunctionalGroups",
-        responses = {
-            @ApiResponse(responseCode = "200", description = "200 response", content = {
-                @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResult.class))
-            })
-        },
-        security = {
-            @SecurityRequirement(name = "boeing-auth", scopes={ "write", "read" })
-        }
+            operationId = "getFunctionalGroups",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "200 response", content = {
+                            @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResult.class))
+                    })
+            },
+            security = {
+                    @SecurityRequirement(name = "boeing-auth", scopes = {"write", "read"})
+            }
     )
     @RequestMapping(
-        method = RequestMethod.GET,
-        value = "/clients/{clientId}/engagements/{engagementId}/functionalareas/{functionalAreaId}/functionalgroups",
-        produces = { "application/json" }
+            method = RequestMethod.GET,
+            value = "/clients/{clientId}/engagements/{engagementId}/functionalareas/{functionalAreaId}/functionalgroups",
+            produces = {"application/json"}
     )
-    
     ResponseEntity<ApiResult> getFunctionalGroups(
-        @Pattern(regexp = "\"^'[0-9]+\\.[A-Z]{3}\\.[0-9]+\\.[0-9]+\\.[0-9]+\\.*[0-9]*\" ") @Parameter(name = "clientId", description = "id for operations on a specific client", required = true, in = ParameterIn.PATH) @PathVariable("clientId") String clientId,
-        @Pattern(regexp = "\"^'[0-9]+\\.[A-Z]{3}\\.[0-9]+\\.[0-9]+\\.[0-9]+\\.*[0-9]*\" ") @Parameter(name = "engagementId", description = "id for operations on a specific engagement", required = true, in = ParameterIn.PATH) @PathVariable("engagementId") String engagementId,
-        @Pattern(regexp = "\"^'[0-9]+\\.[A-Z]{3}\\.[0-9]+\\.[0-9]+\\.[0-9]+\\.*[0-9]*\" ") @Parameter(name = "functionalAreaId", description = "id for the required functionalArea node", required = true, in = ParameterIn.PATH) @PathVariable("functionalAreaId") String functionalAreaId
-    );
+            @Pattern(regexp = ApiUtil.NODE_ID_REGEX) @Parameter(name = "clientId", description = "id for operations on a specific client", required = true, in = ParameterIn.PATH) @PathVariable("clientId") String clientId,
+            @Pattern(regexp = ApiUtil.NODE_ID_REGEX) @Parameter(name = "engagementId", description = "id for operations on a specific engagement", required = true, in = ParameterIn.PATH) @PathVariable("engagementId") String engagementId,
+            @Pattern(regexp = ApiUtil.NODE_ID_REGEX) @Parameter(name = "functionalAreaId", description = "id for the required functionalArea node", required = true, in = ParameterIn.PATH) @PathVariable("functionalAreaId") String functionalAreaId
+    ) {
+        return null;
+    }
 
 
     /**
      * GET /clients/{clientId}/engagements/{engagementId}/functionalareas/{functionalAreaId}/functionalgroups/{functionalGroupId}/functions
      *
-     * @param clientId id for operations on a specific client (required)
-     * @param engagementId id for operations on a specific engagement (required)
-     * @param functionalAreaId id for the required functionalArea node (required)
+     * @param clientId          id for operations on a specific client (required)
+     * @param engagementId      id for operations on a specific engagement (required)
+     * @param functionalAreaId  id for the required functionalArea node (required)
      * @param functionalGroupId id for the required functionalGroup node (required)
      * @return 200 response (status code 200)
      */
     @Operation(
-        operationId = "getFunctions",
-        responses = {
-            @ApiResponse(responseCode = "200", description = "200 response", content = {
-                @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResult.class))
-            })
-        },
-        security = {
-            @SecurityRequirement(name = "boeing-auth", scopes={ "write", "read" })
-        }
+            operationId = "getFunctions",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "200 response", content = {
+                            @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResult.class))
+                    })
+            },
+            security = {
+                    @SecurityRequirement(name = "boeing-auth", scopes = {"write", "read"})
+            }
     )
     @RequestMapping(
-        method = RequestMethod.GET,
-        value = "/clients/{clientId}/engagements/{engagementId}/functionalareas/{functionalAreaId}/functionalgroups/{functionalGroupId}/functions",
-        produces = { "application/json" }
+            method = RequestMethod.GET,
+            value = "/clients/{clientId}/engagements/{engagementId}/functionalareas/{functionalAreaId}/functionalgroups/{functionalGroupId}/functions",
+            produces = {"application/json"}
     )
-    
     ResponseEntity<ApiResult> getFunctions(
-        @Pattern(regexp = "\"^'[0-9]+\\.[A-Z]{3}\\.[0-9]+\\.[0-9]+\\.[0-9]+\\.*[0-9]*\" ") @Parameter(name = "clientId", description = "id for operations on a specific client", required = true, in = ParameterIn.PATH) @PathVariable("clientId") String clientId,
-        @Pattern(regexp = "\"^'[0-9]+\\.[A-Z]{3}\\.[0-9]+\\.[0-9]+\\.[0-9]+\\.*[0-9]*\" ") @Parameter(name = "engagementId", description = "id for operations on a specific engagement", required = true, in = ParameterIn.PATH) @PathVariable("engagementId") String engagementId,
-        @Pattern(regexp = "\"^'[0-9]+\\.[A-Z]{3}\\.[0-9]+\\.[0-9]+\\.[0-9]+\\.*[0-9]*\" ") @Parameter(name = "functionalAreaId", description = "id for the required functionalArea node", required = true, in = ParameterIn.PATH) @PathVariable("functionalAreaId") String functionalAreaId,
-        @Pattern(regexp = "\"^'[0-9]+\\.[A-Z]{3}\\.[0-9]+\\.[0-9]+\\.[0-9]+\\.*[0-9]*\" ") @Parameter(name = "functionalGroupId", description = "id for the required functionalGroup node", required = true, in = ParameterIn.PATH) @PathVariable("functionalGroupId") String functionalGroupId
-    );
+            @Pattern(regexp = ApiUtil.NODE_ID_REGEX) @Parameter(name = "clientId", description = "id for operations on a specific client", required = true, in = ParameterIn.PATH) @PathVariable("clientId") String clientId,
+            @Pattern(regexp = ApiUtil.NODE_ID_REGEX) @Parameter(name = "engagementId", description = "id for operations on a specific engagement", required = true, in = ParameterIn.PATH) @PathVariable("engagementId") String engagementId,
+            @Pattern(regexp = ApiUtil.NODE_ID_REGEX) @Parameter(name = "functionalAreaId", description = "id for the required functionalArea node", required = true, in = ParameterIn.PATH) @PathVariable("functionalAreaId") String functionalAreaId,
+            @Pattern(regexp = ApiUtil.NODE_ID_REGEX) @Parameter(name = "functionalGroupId", description = "id for the required functionalGroup node", required = true, in = ParameterIn.PATH) @PathVariable("functionalGroupId") String functionalGroupId
+    ) {
+        return null;
+    }
 
 
     /**
      * GET /clients/{clientId}/engagements/{engagementId}/nodes/{nodeId}
      * retrieves a specific node
      *
-     * @param clientId id for operations on a specific client (required)
+     * @param clientId     id for operations on a specific client (required)
      * @param engagementId id for operations on a specific engagement (required)
-     * @param nodeId id for operations on a specific node (required)
+     * @param nodeId       id for operations on a specific node (required)
      * @return 200 response (status code 200)
      */
     @Operation(
-        operationId = "getNode",
-        description = "retrieves a specific node",
-        responses = {
-            @ApiResponse(responseCode = "200", description = "200 response", content = {
-                @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResult.class))
-            })
-        },
-        security = {
-            @SecurityRequirement(name = "boeing-auth", scopes={ "write", "read" })
-        }
+            operationId = "getNode",
+            description = "retrieves a specific node",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "200 response", content = {
+                            @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResult.class))
+                    })
+            },
+            security = {
+                    @SecurityRequirement(name = "boeing-auth", scopes = {"write", "read"})
+            }
     )
     @RequestMapping(
-        method = RequestMethod.GET,
-        value = "/clients/{clientId}/engagements/{engagementId}/nodes/{nodeId}",
-        produces = { "application/json" }
+            method = RequestMethod.GET,
+            value = "/clients/{clientId}/engagements/{engagementId}/nodes/{nodeId}",
+            produces = {"application/json"}
     )
-    
     ResponseEntity<ApiResult> getNode(
-        @Pattern(regexp = "\"^'[0-9]+\\.[A-Z]{3}\\.[0-9]+\\.[0-9]+\\.[0-9]+\\.*[0-9]*\" ") @Parameter(name = "clientId", description = "id for operations on a specific client", required = true, in = ParameterIn.PATH) @PathVariable("clientId") String clientId,
-        @Pattern(regexp = "\"^'[0-9]+\\.[A-Z]{3}\\.[0-9]+\\.[0-9]+\\.[0-9]+\\.*[0-9]*\" ") @Parameter(name = "engagementId", description = "id for operations on a specific engagement", required = true, in = ParameterIn.PATH) @PathVariable("engagementId") String engagementId,
-        @Pattern(regexp = "\"^'[0-9]+\\.[A-Z]{3}\\.[0-9]+\\.[0-9]+\\.[0-9]+\\.*[0-9]*\" ") @Parameter(name = "nodeId", description = "id for operations on a specific node", required = true, in = ParameterIn.PATH) @PathVariable("nodeId") String nodeId
-    );
+            @Pattern(regexp = ApiUtil.NODE_ID_REGEX) @Parameter(name = "clientId", description = "id for operations on a specific client", required = true, in = ParameterIn.PATH) @PathVariable("clientId") String clientId,
+            @Pattern(regexp = ApiUtil.NODE_ID_REGEX) @Parameter(name = "engagementId", description = "id for operations on a specific engagement", required = true, in = ParameterIn.PATH) @PathVariable("engagementId") String engagementId,
+            @Pattern(regexp = ApiUtil.NODE_ID_REGEX) @Parameter(name = "nodeId", description = "id for operations on a specific node", required = true, in = ParameterIn.PATH) @PathVariable("nodeId") String nodeId
+    ) {
+        return null;
+    }
 
 
     /**
      * GET /clients/{clientId}/engagements/{engagementId}/nodes/{nodeId}/graph
      *
-     * @param clientId id for operations on a specific client (required)
+     * @param clientId     id for operations on a specific client (required)
      * @param engagementId id for operations on a specific engagement (required)
-     * @param nodeId id for operations on a specific node (required)
-     * @param graphdepth how many levels to return. default 3 (optional, default to 9)
+     * @param nodeId       id for operations on a specific node (required)
+     * @param graphdepth   how many levels to return. default 3 (optional, default to 9)
      * @return 200 response (status code 200)
      */
     @Operation(
-        operationId = "getNodeGraph",
-        responses = {
-            @ApiResponse(responseCode = "200", description = "200 response", content = {
-                @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResult.class))
-            })
-        },
-        security = {
-            @SecurityRequirement(name = "boeing-auth", scopes={ "write", "read" })
-        }
+            operationId = "getNodeGraph",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "200 response", content = {
+                            @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResult.class))
+                    })
+            },
+            security = {
+                    @SecurityRequirement(name = "boeing-auth", scopes = {"write", "read"})
+            }
     )
     @RequestMapping(
-        method = RequestMethod.GET,
-        value = "/clients/{clientId}/engagements/{engagementId}/nodes/{nodeId}/graph",
-        produces = { "application/json" }
+            method = RequestMethod.GET,
+            value = "/clients/{clientId}/engagements/{engagementId}/nodes/{nodeId}/graph",
+            produces = {"application/json"}
     )
-    
     ResponseEntity<ApiResult> getNodeGraph(
-        @Pattern(regexp = "\"^'[0-9]+\\.[A-Z]{3}\\.[0-9]+\\.[0-9]+\\.[0-9]+\\.*[0-9]*\" ") @Parameter(name = "clientId", description = "id for operations on a specific client", required = true, in = ParameterIn.PATH) @PathVariable("clientId") String clientId,
-        @Pattern(regexp = "\"^'[0-9]+\\.[A-Z]{3}\\.[0-9]+\\.[0-9]+\\.[0-9]+\\.*[0-9]*\" ") @Parameter(name = "engagementId", description = "id for operations on a specific engagement", required = true, in = ParameterIn.PATH) @PathVariable("engagementId") String engagementId,
-        @Pattern(regexp = "\"^'[0-9]+\\.[A-Z]{3}\\.[0-9]+\\.[0-9]+\\.[0-9]+\\.*[0-9]*\" ") @Parameter(name = "nodeId", description = "id for operations on a specific node", required = true, in = ParameterIn.PATH) @PathVariable("nodeId") String nodeId,
-        @Min(1) @Parameter(name = "graphdepth", description = "how many levels to return. default 3", in = ParameterIn.QUERY) @Valid @RequestParam(value = "graphdepth", required = false, defaultValue = "9") Integer graphdepth
-    );
+            @Pattern(regexp = ApiUtil.NODE_ID_REGEX) @Parameter(name = "clientId", description = "id for operations on a specific client", required = true, in = ParameterIn.PATH) @PathVariable("clientId") String clientId,
+            @Pattern(regexp = ApiUtil.NODE_ID_REGEX) @Parameter(name = "engagementId", description = "id for operations on a specific engagement", required = true, in = ParameterIn.PATH) @PathVariable("engagementId") String engagementId,
+            @Pattern(regexp = ApiUtil.NODE_ID_REGEX) @Parameter(name = "nodeId", description = "id for operations on a specific node", required = true, in = ParameterIn.PATH) @PathVariable("nodeId") String nodeId,
+            @Min(1) @Parameter(name = "graphdepth", description = "how many levels to return. default 3", in = ParameterIn.QUERY) @Valid @RequestParam(value = "graphdepth", required = false, defaultValue = "9") Integer graphdepth
+    ) {
+        return null;
+    }
 
 
     /**
      * POST /clients/{clientId}/engagements/{engagementId}/nodes/{nodeId}/move
      * move a node to a new parent. returns the node on success
      *
-     * @param clientId id for operations on a specific client (required)
+     * @param clientId     id for operations on a specific client (required)
      * @param engagementId id for operations on a specific engagement (required)
-     * @param nodeId id for operations on a specific node (required)
+     * @param nodeId       id for operations on a specific node (required)
      * @param moveNodeInfo A valid node for update or creation (required)
      * @return 200 response (status code 200)
      */
     @Operation(
-        operationId = "moveNode",
-        description = "move a node to a new parent. returns the node on success",
-        responses = {
-            @ApiResponse(responseCode = "200", description = "200 response", content = {
-                @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResult.class))
-            })
-        },
-        security = {
-            @SecurityRequirement(name = "boeing-auth", scopes={ "write", "read" })
-        }
+            operationId = "moveNode",
+            description = "move a node to a new parent. returns the node on success",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "200 response", content = {
+                            @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResult.class))
+                    })
+            },
+            security = {
+                    @SecurityRequirement(name = "boeing-auth", scopes = {"write", "read"})
+            }
     )
     @RequestMapping(
-        method = RequestMethod.POST,
-        value = "/clients/{clientId}/engagements/{engagementId}/nodes/{nodeId}/move",
-        produces = { "application/json" },
-        consumes = { "application/json" }
+            method = RequestMethod.POST,
+            value = "/clients/{clientId}/engagements/{engagementId}/nodes/{nodeId}/move",
+            produces = {"application/json"},
+            consumes = {"application/json"}
     )
-    
     ResponseEntity<ApiResult> moveNode(
-        @Pattern(regexp = "\"^'[0-9]+\\.[A-Z]{3}\\.[0-9]+\\.[0-9]+\\.[0-9]+\\.*[0-9]*\" ") @Parameter(name = "clientId", description = "id for operations on a specific client", required = true, in = ParameterIn.PATH) @PathVariable("clientId") String clientId,
-        @Pattern(regexp = "\"^'[0-9]+\\.[A-Z]{3}\\.[0-9]+\\.[0-9]+\\.[0-9]+\\.*[0-9]*\" ") @Parameter(name = "engagementId", description = "id for operations on a specific engagement", required = true, in = ParameterIn.PATH) @PathVariable("engagementId") String engagementId,
-        @Pattern(regexp = "\"^'[0-9]+\\.[A-Z]{3}\\.[0-9]+\\.[0-9]+\\.[0-9]+\\.*[0-9]*\" ") @Parameter(name = "nodeId", description = "id for operations on a specific node", required = true, in = ParameterIn.PATH) @PathVariable("nodeId") String nodeId,
-        @Parameter(name = "MoveNodeInfo", description = "A valid node for update or creation", required = true) @Valid @RequestBody MoveNodeInfo moveNodeInfo
-    );
+            @Pattern(regexp = ApiUtil.NODE_ID_REGEX) @Parameter(name = "clientId", description = "id for operations on a specific client", required = true, in = ParameterIn.PATH) @PathVariable("clientId") String clientId,
+            @Pattern(regexp = ApiUtil.NODE_ID_REGEX) @Parameter(name = "engagementId", description = "id for operations on a specific engagement", required = true, in = ParameterIn.PATH) @PathVariable("engagementId") String engagementId,
+            @Pattern(regexp = ApiUtil.NODE_ID_REGEX) @Parameter(name = "nodeId", description = "id for operations on a specific node", required = true, in = ParameterIn.PATH) @PathVariable("nodeId") String nodeId,
+            @Parameter(name = "MoveNodeInfo", description = "A valid node for update or creation", required = true) @Valid @RequestBody MoveNodeInfo moveNodeInfo
+    ) {
+        return null;
+    }
 
 
     /**
      * PATCH /clients/{clientId}/engagements/{engagementId}/nodes/{nodeId}
      * update node. returns the node on success
      *
-     * @param clientId id for operations on a specific client (required)
+     * @param clientId     id for operations on a specific client (required)
      * @param engagementId id for operations on a specific engagement (required)
-     * @param nodeId id for operations on a specific node (required)
-     * @param apiResult A valid node for update or creation (required)
+     * @param nodeId       id for operations on a specific node (required)
+     * @param apiResult    A valid node for update or creation (required)
      * @return 200 response (status code 200)
      */
     @Operation(
-        operationId = "upsertNode",
-        description = "update node. returns the node on success",
-        responses = {
-            @ApiResponse(responseCode = "200", description = "200 response", content = {
-                @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResult.class))
-            })
-        },
-        security = {
-            @SecurityRequirement(name = "boeing-auth", scopes={ "write", "read" })
-        }
+            operationId = "upsertNode",
+            description = "update node. returns the node on success",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "200 response", content = {
+                            @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResult.class))
+                    })
+            },
+            security = {
+                    @SecurityRequirement(name = "boeing-auth", scopes = {"write", "read"})
+            }
     )
     @RequestMapping(
-        method = RequestMethod.PATCH,
-        value = "/clients/{clientId}/engagements/{engagementId}/nodes/{nodeId}",
-        produces = { "application/json" },
-        consumes = { "application/json" }
+            method = RequestMethod.PATCH,
+            value = "/clients/{clientId}/engagements/{engagementId}/nodes/{nodeId}",
+            produces = {"application/json"},
+            consumes = {"application/json"}
     )
-    
     ResponseEntity<ApiResult> upsertNode(
-        @Pattern(regexp = "\"^'[0-9]+\\.[A-Z]{3}\\.[0-9]+\\.[0-9]+\\.[0-9]+\\.*[0-9]*\" ") @Parameter(name = "clientId", description = "id for operations on a specific client", required = true, in = ParameterIn.PATH) @PathVariable("clientId") String clientId,
-        @Pattern(regexp = "\"^'[0-9]+\\.[A-Z]{3}\\.[0-9]+\\.[0-9]+\\.[0-9]+\\.*[0-9]*\" ") @Parameter(name = "engagementId", description = "id for operations on a specific engagement", required = true, in = ParameterIn.PATH) @PathVariable("engagementId") String engagementId,
-        @Pattern(regexp = "\"^'[0-9]+\\.[A-Z]{3}\\.[0-9]+\\.[0-9]+\\.[0-9]+\\.*[0-9]*\" ") @Parameter(name = "nodeId", description = "id for operations on a specific node", required = true, in = ParameterIn.PATH) @PathVariable("nodeId") String nodeId,
-        @Parameter(name = "ApiResult", description = "A valid node for update or creation", required = true) @Valid @RequestBody ApiResult apiResult
-    );
+            @Pattern(regexp = ApiUtil.NODE_ID_REGEX) @Parameter(name = "clientId", description = "id for operations on a specific client", required = true, in = ParameterIn.PATH) @PathVariable("clientId") String clientId,
+            @Pattern(regexp = ApiUtil.NODE_ID_REGEX) @Parameter(name = "engagementId", description = "id for operations on a specific engagement", required = true, in = ParameterIn.PATH) @PathVariable("engagementId") String engagementId,
+            @Pattern(regexp = ApiUtil.NODE_ID_REGEX) @Parameter(name = "nodeId", description = "id for operations on a specific node", required = true, in = ParameterIn.PATH) @PathVariable("nodeId") String nodeId,
+            @Parameter(name = "ApiResult", description = "A valid node for update or creation", required = true) @Valid @RequestBody ApiResult apiResult
+    ) {
+        return null;
+    }
 
 }

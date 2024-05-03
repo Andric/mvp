@@ -12,7 +12,6 @@
 	<groupId>com.boeing</groupId>
 	<artifactId>apmapi</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>pom</packaging>
 	<name>apmapi</name>
 	<description>apmapi project for Spring Boot</description>
 	<properties>
@@ -31,7 +30,7 @@
 		<dependency>
 			<groupId>jakarta.validation</groupId>
 			<artifactId>jakarta.validation-api</artifactId>
-			<version>3.1.0-M2</version>
+			<version>3.0.2</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -76,6 +75,12 @@
 			<artifactId>swagger-annotations</artifactId>
 			<version>2.2.21</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/io.swagger.core.v3/swagger-core-jakarta  -->
+		<dependency>
+			<groupId>io.swagger.core.v3</groupId>
+			<artifactId>swagger-core</artifactId>
+			<version>2.2.21</version>
+		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.openapitools/jackson-databind-nullable -->
 		<dependency>
 			<groupId>org.openapitools</groupId>
@@ -116,39 +121,12 @@
 				</configuration>
 			</plugin>
 			<plugin>
-				<groupId>org.openapitools</groupId>
-				<artifactId>openapi-generator-maven-plugin</artifactId>
-				<version>7.5.0</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>generate</goal>
-						</goals>
-						<configuration>
-							<inputSpec>${project.basedir}/src/main/resources/apmapi.yaml</inputSpec>
-							<generatorName>spring</generatorName>
-							<apiPackage>com.boeing.apmapi.controller</apiPackage>
-							<modelPackage>com.boeing.apmapi.model</modelPackage>
-							<supportingFilesToGenerate>
-								ApiUtil.java
-							</supportingFilesToGenerate>
-							<configOptions>
-								<sourceFolder>src/gen/java/main</sourceFolder>
-								<dateLibrary>java8</dateLibrary>
-								<disallowAdditionalPropertiesIfNotPresent>false</disallowAdditionalPropertiesIfNotPresent>
-								<documentationProvider>springdoc</documentationProvider>
-								<legacyDiscriminatorBehavior>false</legacyDiscriminatorBehavior>
-								<cleanOutput>true</cleanOutput>
-								<anotationLibrary>none</anotationLibrary>
-								<delegatePattern>false</delegatePattern>
-								<requestMappingMode>none</requestMappingMode>
-								<skipDefaultInterface>true</skipDefaultInterface>
-								<useSpringBoot3>true</useSpringBoot3>
-							</configOptions>
-							<openapiNormalizer>REF_AS_PARENT_IN_ALLOF=true</openapiNormalizer>
-						</configuration>
-					</execution>
-				</executions>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>8</source>
+					<target>8</target>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
