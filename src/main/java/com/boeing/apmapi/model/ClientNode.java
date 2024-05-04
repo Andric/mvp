@@ -20,7 +20,7 @@ import com.fasterxml.jackson.annotation.JsonAnySetter;
  */
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-05-02T16:46:26.629395600-06:00[America/Denver]", comments = "Generator version: 7.5.0")
-public class ClientNode implements Payload {
+public class ClientNode extends Node implements Payload {
 
   private String typeName = "CVV";
 

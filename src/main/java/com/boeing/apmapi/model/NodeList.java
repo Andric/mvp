@@ -18,7 +18,7 @@ import jakarta.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-05-02T16:46:26.629395600-06:00[America/Denver]", comments = "Generator version: 7.5.0")
 public class NodeList implements Payload {
 
-  private String typeName = "GenericNodeList";
+  private NodeTypes typeName = NodeTypes.NODELIST;
 
   @Valid
   private List<Node> values = new ArrayList<>();
@@ -35,7 +35,7 @@ public class NodeList implements Payload {
   }
 
   public NodeList typeName(String typeName) {
-    this.typeName = typeName;
+    this.typeName = NodeTypes.fromValue(typeName);
     return this;
   }
 

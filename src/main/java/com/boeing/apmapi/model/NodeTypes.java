@@ -6,42 +6,27 @@ import jakarta.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonCreator;
 
 /**
- * Name of the node type - primary label/DTO type name. for unknown or mixed list items use GenericNode
+ * Name of the node type - primary label/DTO type name. for unknown or mixed
+ * list items use GenericNode
  */
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-05-02T16:46:26.629395600-06:00[America/Denver]", comments = "Generator version: 7.5.0")
 public enum NodeTypes {
-  
   CVV("CVV"),
-  
   EVV("EVV"),
-  
   FNA("FNA"),
-  
   FNG("FNG"),
-  
   FNC("FNC"),
-  
   TKK("TKK"),
-  
   NTT("NTT"),
-  
   COM("COM"),
-  
   TGT("TGT"),
-  
   TGS("TGS"),
-  
   TGM("TGM"),
-  
   UNK("UNK"),
-  
   EMPTY("Empty"),
-  
   ERROR("Error"),
-  
   GRAPH("Graph"),
-  
   NODELIST("NodeList");
 
   private String value;
@@ -70,4 +55,3 @@ public enum NodeTypes {
     throw new IllegalArgumentException("Unexpected value '" + value + "'");
   }
 }
-

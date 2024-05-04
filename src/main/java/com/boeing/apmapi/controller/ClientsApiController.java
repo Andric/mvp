@@ -5,10 +5,10 @@
  */
 package com.boeing.apmapi.controller;
 
+import com.boeing.apmapi.Utils.ApiUtil;
 import com.boeing.apmapi.dal.GetCypher;
 import com.boeing.apmapi.model.ApiResult;
 import com.boeing.apmapi.model.MoveNodeInfo;
-import com.boeing.apmapi.model.Payload;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;

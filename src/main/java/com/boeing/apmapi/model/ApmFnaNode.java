@@ -1,6 +1,9 @@
 package com.boeing.apmapi.model;
 
 import java.util.Objects;
+
+import org.neo4j.driver.types.Node;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,25 +23,11 @@ import com.fasterxml.jackson.annotation.JsonAnySetter;
  */
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-05-02T16:46:26.629395600-06:00[America/Denver]", comments = "Generator version: 7.5.0")
-public class ApmFnaNode implements Payload {
+public class ApmFnaNode extends ApmNode implements Payload {
 
   private String typeName = "FNA";
 
-  private String apmId;
-
-  private Integer sort;
-
-  private String ampTitle;
-
-  private Boolean isDeleted;
-
-  private String dbId;
-
-  private String nodeId;
-
-  @Valid
-  private List<String> labels = new ArrayList<>();
-
+  
   public ApmFnaNode() {
     super();
   }
@@ -46,12 +35,8 @@ public class ApmFnaNode implements Payload {
   /**
    * Constructor with only required parameters
    */
-  public ApmFnaNode(String typeName, String apmId, Integer sort, String nodeId, List<String> labels) {
-    this.typeName = typeName;
-    this.apmId = apmId;
-    this.sort = sort;
-    this.nodeId = nodeId;
-    this.labels = labels;
+  public ApmFnaNode(Node node) {
+    super(node);
   }
 
   public ApmFnaNode typeName(String typeName) {
@@ -59,16 +44,6 @@ public class ApmFnaNode implements Payload {
     return this;
   }
 
-  /**
-   * Get typeName
-   * @return typeName
-  */
-  @NotNull 
-  @Schema(name = "typeName", requiredMode = Schema.RequiredMode.REQUIRED)
-  @JsonProperty("typeName")
-  public String getTypeName() {
-    return typeName;
-  }
 
   public void setTypeName(String typeName) {
     this.typeName = typeName;
@@ -296,7 +271,6 @@ public class ApmFnaNode implements Payload {
     sb.append("    dbId: ").append(toIndentedString(dbId)).append("\n");
     sb.append("    nodeId: ").append(toIndentedString(nodeId)).append("\n");
     sb.append("    labels: ").append(toIndentedString(labels)).append("\n");
-    
     sb.append("    additionalProperties: ").append(toIndentedString(additionalProperties)).append("\n");
     sb.append("}");
     return sb.toString();
