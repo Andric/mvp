@@ -35,6 +35,12 @@ public class Node {
   public Node() {
     super();
   }
+  public Node(org.neo4j.driver.types.Node neo4jNode){
+      super();
+      this.dbId = neo4jNode.elementId();
+      this.nodeId = neo4jNode.get("nodeId").toString();
+      neo4jNode.labels().forEach(labels::add);
+  }
 
   /**
    * Constructor with only required parameters
