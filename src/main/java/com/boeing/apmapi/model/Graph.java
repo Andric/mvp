@@ -14,9 +14,9 @@ import jakarta.annotation.Generated;
  */
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-05-02T16:46:26.629395600-06:00[America/Denver]", comments = "Generator version: 7.5.0")
-public class Graph implements Payload {
+public class Graph implements IElement {
 
-  private String typeName = "Graph";
+  private ApiElementEnum elementType = ApiElementEnum.GRAPH;
 
   private NodeList nodes;
 
@@ -29,38 +29,23 @@ public class Graph implements Payload {
   /**
    * Constructor with only required parameters
    */
-  public Graph(String typeName, NodeList nodes, RelationshipList relationships) {
-    this.typeName = typeName;
+  public Graph(NodeList nodes, RelationshipList relationships) {
     this.nodes = nodes;
     this.relationships = relationships;
   }
 
-  public Graph typeName(String typeName) {
-    this.typeName = typeName;
-    return this;
-  }
-
   /**
    * Name of the graph type
-   * @return typeName
+   * @return elementType
   */
   @NotNull 
-  @Schema(name = "typeName", description = "Name of the graph type", requiredMode = Schema.RequiredMode.REQUIRED)
-  @JsonProperty("typeName")
-  public String getTypeName() {
-    return typeName;
+  @Schema(name = "elementType", description = "Name of the graph type", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("elementType")
+  public ApiElementEnum getElementType() {
+    return elementType;
   }
 
-  public void setTypeName(String typeName) {
-    this.typeName = typeName;
-  }
-
-  public Graph nodes(NodeList nodes) {
-    this.nodes = nodes;
-    return this;
-  }
-
-  /**
+ /**
    * Get nodes
    * @return nodes
   */
@@ -104,21 +89,21 @@ public class Graph implements Payload {
       return false;
     }
     Graph graph = (Graph) o;
-    return Objects.equals(this.typeName, graph.typeName) &&
+    return Objects.equals(this.elementType, graph.elementType) &&
         Objects.equals(this.nodes, graph.nodes) &&
         Objects.equals(this.relationships, graph.relationships);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(typeName, nodes, relationships);
+    return Objects.hash(elementType, nodes, relationships);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class Graph {\n");
-    sb.append("    typeName: ").append(toIndentedString(typeName)).append("\n");
+    sb.append("    elementType: ").append(toIndentedString(elementType)).append("\n");
     sb.append("    nodes: ").append(toIndentedString(nodes)).append("\n");
     sb.append("    relationships: ").append(toIndentedString(relationships)).append("\n");
     sb.append("}");

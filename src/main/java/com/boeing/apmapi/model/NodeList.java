@@ -16,55 +16,33 @@ import jakarta.annotation.Generated;
  */
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-05-02T16:46:26.629395600-06:00[America/Denver]", comments = "Generator version: 7.5.0")
-public class NodeList implements Payload {
+public class NodeList implements IElement {
 
-  private NodeTypes typeName = NodeTypes.NODELIST;
+  private ApiElementEnum elementType = ApiElementEnum.NODELIST;
 
   @Valid
-  private List<Node> values = new ArrayList<>();
+  private List<BaseNode> values = new ArrayList<>();
 
   public NodeList() {
     super();
   }
 
   /**
-   * Constructor with only required parameters
-   */
-  public NodeList(String typeName) {
-    this.typeName = typeName;
-  }
-
-  public NodeList typeName(String typeName) {
-    this.typeName = NodeTypes.fromValue(typeName);
-    return this;
-  }
-
-  /**
    * type of the nodes in the list
-   * @return typeName
+   * @return elementType
   */
   @NotNull 
-  @Schema(name = "typeName", description = "type of the nodes in the list", requiredMode = Schema.RequiredMode.REQUIRED)
-  @JsonProperty("typeName")
-  public String getTypeName() {
-    return typeName;
+  @Schema(name = "elementType", description = "type of the nodes in the list", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("elementType")
+  public ApiElementEnum getElementType() {
+    return elementType;
   }
 
-  public void setTypeName(String typeName) {
-    this.typeName = typeName;
-  }
-
-  public NodeList values(List<Node> values) {
-    this.values = values;
-    return this;
-  }
-
-  public NodeList addValuesItem(Node valuesItem) {
+  public void addValuesItem(BaseNode valuesItem) {
     if (this.values == null) {
       this.values = new ArrayList<>();
     }
     this.values.add(valuesItem);
-    return this;
   }
 
   /**
@@ -74,11 +52,11 @@ public class NodeList implements Payload {
   @Valid 
   @Schema(name = "values", description = "List of Node objects", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("values")
-  public List<Node> getValues() {
+  public List<BaseNode> getValues() {
     return values;
   }
 
-  public void setValues(List<Node> values) {
+  public void setValues(List<BaseNode> values) {
     this.values = values;
   }
 
@@ -91,20 +69,20 @@ public class NodeList implements Payload {
       return false;
     }
     NodeList nodeList = (NodeList) o;
-    return Objects.equals(this.typeName, nodeList.typeName) &&
+    return Objects.equals(this.elementType, nodeList.elementType) &&
         Objects.equals(this.values, nodeList.values);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(typeName, values);
+    return Objects.hash(elementType, values);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class NodeList {\n");
-    sb.append("    typeName: ").append(toIndentedString(typeName)).append("\n");
+    sb.append("    elementType: ").append(toIndentedString(elementType)).append("\n");
     sb.append("    values: ").append(toIndentedString(values)).append("\n");
     sb.append("}");
     return sb.toString();

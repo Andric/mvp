@@ -1,7 +1,6 @@
 package com.boeing.apmapi.model;
 
 import com.fasterxml.jackson.annotation.JsonValue;
-import jakarta.annotation.Generated;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 
@@ -9,9 +8,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
  * Name of the node type - primary label/DTO type name. for unknown or mixed
  * list items use GenericNode
  */
-
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-05-02T16:46:26.629395600-06:00[America/Denver]", comments = "Generator version: 7.5.0")
-public enum NodeTypes {
+public enum ApiElementEnum {
   CVV("CVV"),
   EVV("EVV"),
   FNA("FNA"),
@@ -27,11 +24,12 @@ public enum NodeTypes {
   EMPTY("Empty"),
   ERROR("Error"),
   GRAPH("Graph"),
-  NODELIST("NodeList");
+  NODELIST("NodeList"), 
+  AMPNODE("AmpNode");
 
   private String value;
 
-  NodeTypes(String value) {
+  ApiElementEnum(String value) {
     this.value = value;
   }
 
@@ -46,8 +44,8 @@ public enum NodeTypes {
   }
 
   @JsonCreator
-  public static NodeTypes fromValue(String value) {
-    for (NodeTypes b : NodeTypes.values()) {
+  public static ApiElementEnum fromValue(String value) {
+    for (ApiElementEnum b : ApiElementEnum.values()) {
       if (b.value.equals(value)) {
         return b;
       }

@@ -5,50 +5,26 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 
-
-import jakarta.annotation.Generated;
-
 /**
  * An empty object for when there is no data
  */
-
 @Schema(name = "Empty", description = "An empty object for when there is no data")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-05-02T16:46:26.629395600-06:00[America/Denver]", comments = "Generator version: 7.5.0")
-public class Empty implements Payload {
+public class Empty implements IElement {
 
-  private String typeName = "Empty";
+  private final ApiElementEnum elementType = ApiElementEnum.EMPTY;
 
-  public Empty() {
-    super();
-  }
+  public Empty() {}
 
-  /**
-   * Constructor with only required parameters
-   */
-  public Empty(String typeName) {
-    this.typeName = typeName;
-  }
-
-  public Empty typeName(String typeName) {
-    this.typeName = typeName;
-    return this;
-  }
-
-  /**
-   * Name of the type
-   * @return typeName
-  */
+  
   @NotNull 
-  @Schema(name = "typeName", description = "Name of the type", requiredMode = Schema.RequiredMode.REQUIRED)
-  @JsonProperty("typeName")
-  public String getTypeName() {
-    return typeName;
+  @Schema(name = "elementType", description = "Name of the type", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("elementType")
+  @Override
+  public ApiElementEnum getApiElementType() {
+    return elementType;
   }
 
-  public void setTypeName(String typeName) {
-    this.typeName = typeName;
-  }
-
+ 
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -58,19 +34,19 @@ public class Empty implements Payload {
       return false;
     }
     Empty empty = (Empty) o;
-    return Objects.equals(this.typeName, empty.typeName);
+    return Objects.equals(this.elementType, empty.elementType);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(typeName);
+    return Objects.hash(elementType);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class Empty {\n");
-    sb.append("    typeName: ").append(toIndentedString(typeName)).append("\n");
+    sb.append("    elementType: ").append(toIndentedString(elementType)).append("\n");
     sb.append("}");
     return sb.toString();
   }

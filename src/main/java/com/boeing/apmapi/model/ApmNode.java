@@ -3,25 +3,14 @@ package com.boeing.apmapi.model;
 import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import java.util.ArrayList;
-import java.util.List;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 
-
-import jakarta.annotation.Generated;
-
-import java.util.Map;
-import java.util.HashMap;
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
-import com.fasterxml.jackson.annotation.JsonAnySetter;
 /**
  * ApmNode
  */
-
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-05-02T16:46:26.629395600-06:00[America/Denver]", comments = "Generator version: 7.5.0")
-public class ApmNode extends Node {
+public class ApmNode extends BaseNode {
 
   protected String apmId;
 
@@ -31,7 +20,7 @@ public class ApmNode extends Node {
 
   protected Boolean isDeleted;
 
-  protected NodeTypes typeName = NodeTypes.UNK;
+  protected ApiElementEnum elementType = ApiElementEnum.AMPNODE;
 
    /**
    * Constructor with only required parameters
@@ -112,14 +101,14 @@ public class ApmNode extends Node {
 
 
   /**
-   * Get typeName
-   * @return typeName
+   * Get elementType
+   * @return elementType
   */
   @NotNull @Valid 
-  @Schema(name = "typeName", requiredMode = Schema.RequiredMode.REQUIRED)
-  @JsonProperty("typeName")
-  public NodeTypes getTypeName() {
-    return typeName;
+  @Schema(name = "elementType", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("elementType")
+  public ApiElementEnum getElementType() {
+    return elementType;
   }
 
   @Override
@@ -142,17 +131,7 @@ public class ApmNode extends Node {
 
   @Override
   public int hashCode() {
-    return Objects.hash(apmId, sort, ampTitle, isDeleted, typeName, dbId, nodeId, labels, additionalProperties);
-  }
-
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("class ApmNode {\n");
-    sb.append(getPropertiesString());
-
-    sb.append("}");
-    return sb.toString();
+    return Objects.hash(apmId, sort, ampTitle, isDeleted, elementType, dbId, nodeId, labels);
   }
 
   @Override
@@ -165,15 +144,6 @@ public class ApmNode extends Node {
     sb.append("    isDeleted: ").append(toIndentedString(isDeleted)).append("\n");
     return sb.toString();
   }
-  /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
-   */
-  private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
-  }
+
 }
 

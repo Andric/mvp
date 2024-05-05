@@ -14,9 +14,9 @@ import jakarta.annotation.Generated;
  */
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-05-02T16:46:26.629395600-06:00[America/Denver]", comments = "Generator version: 7.5.0")
-public class Error implements Payload {
+public class Error implements IElement {
 
-  private String typeName = "Error";
+  private final ApiElementEnum elementType = ApiElementEnum.ERROR;
 
   private ErrorStatus status;
 
@@ -29,35 +29,22 @@ public class Error implements Payload {
   /**
    * Constructor with only required parameters
    */
-  public Error(String typeName, ErrorStatus status, String message) {
-    this.typeName = typeName;
+  public Error(ErrorStatus status, String message) {
     this.status = status;
     this.message = message;
   }
 
-  public Error typeName(String typeName) {
-    this.typeName = typeName;
-    return this;
-  }
-
+ 
   /**
    * Name of the error type
-   * @return typeName
+   * @return elementType
   */
   @NotNull 
-  @Schema(name = "typeName", description = "Name of the error type", requiredMode = Schema.RequiredMode.REQUIRED)
-  @JsonProperty("typeName")
-  public String getTypeName() {
-    return typeName;
-  }
-
-  public void setTypeName(String typeName) {
-    this.typeName = typeName;
-  }
-
-  public Error status(ErrorStatus status) {
-    this.status = status;
-    return this;
+  @Schema(name = "elementType", description = "Name of the error type", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("elementType")
+  @Override
+  public ApiElementEnum getApiElementType() {
+    return elementType;
   }
 
   /**
@@ -73,11 +60,6 @@ public class Error implements Payload {
 
   public void setStatus(ErrorStatus status) {
     this.status = status;
-  }
-
-  public Error message(String message) {
-    this.message = message;
-    return this;
   }
 
   /**
@@ -104,21 +86,21 @@ public class Error implements Payload {
       return false;
     }
     Error error = (Error) o;
-    return Objects.equals(this.typeName, error.typeName) &&
+    return Objects.equals(this.elementType, error.elementType) &&
         Objects.equals(this.status, error.status) &&
         Objects.equals(this.message, error.message);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(typeName, status, message);
+    return Objects.hash(elementType, status, message);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class Error {\n");
-    sb.append("    typeName: ").append(toIndentedString(typeName)).append("\n");
+    sb.append("    elementType: ").append(toIndentedString(elementType)).append("\n");
     sb.append("    status: ").append(toIndentedString(status)).append("\n");
     sb.append("    message: ").append(toIndentedString(message)).append("\n");
     sb.append("}");

@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
-import com.boeing.apmapi.model.Node;
+import com.boeing.apmapi.model.BaseNode;
 
 @Service
 public class GetCypher extends BaseCypher {
@@ -19,7 +19,6 @@ public class GetCypher extends BaseCypher {
         super(graphAccess);
     }
 
-    @SuppressWarnings("unchecked")
     public NodeList getNodes(String label) {
         NodeList nodes = new NodeList();
 
@@ -32,7 +31,7 @@ public class GetCypher extends BaseCypher {
                     Record record = result.next();
                     var props = record.values();
                     for (Value v : props) {
-                        nodes.addValuesItem(new Node(v.asNode()));
+                        nodes.addValuesItem(new BaseNode(v.asNode()));
                     }
                 }
             }

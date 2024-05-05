@@ -7,7 +7,6 @@ import org.neo4j.driver.types.Node;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.ArrayList;
 import java.util.List;
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 
@@ -23,14 +22,9 @@ import com.fasterxml.jackson.annotation.JsonAnySetter;
  */
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-05-02T16:46:26.629395600-06:00[America/Denver]", comments = "Generator version: 7.5.0")
-public class ApmFnaNode extends ApmNode implements Payload {
+public class ApmFnaNode extends ApmNode {
 
-  private String typeName = "FNA";
-
-  
-  public ApmFnaNode() {
-    super();
-  }
+  private String elementType = "FNA";
 
   /**
    * Constructor with only required parameters
@@ -39,14 +33,14 @@ public class ApmFnaNode extends ApmNode implements Payload {
     super(node);
   }
 
-  public ApmFnaNode typeName(String typeName) {
-    this.typeName = typeName;
+  public ApmFnaNode elementType(String elementType) {
+    this.elementType = elementType;
     return this;
   }
 
 
-  public void setTypeName(String typeName) {
-    this.typeName = typeName;
+  public void setelementType(String elementType) {
+    this.elementType = elementType;
   }
 
   public ApmFnaNode apmId(String apmId) {
@@ -243,7 +237,7 @@ public class ApmFnaNode extends ApmNode implements Payload {
       return false;
     }
     ApmFnaNode apmFnaNode = (ApmFnaNode) o;
-    return Objects.equals(this.typeName, apmFnaNode.typeName) &&
+    return Objects.equals(this.elementType, apmFnaNode.elementType) &&
         Objects.equals(this.apmId, apmFnaNode.apmId) &&
         Objects.equals(this.sort, apmFnaNode.sort) &&
         Objects.equals(this.ampTitle, apmFnaNode.ampTitle) &&
@@ -256,14 +250,14 @@ public class ApmFnaNode extends ApmNode implements Payload {
 
   @Override
   public int hashCode() {
-    return Objects.hash(typeName, apmId, sort, ampTitle, isDeleted, dbId, nodeId, labels, additionalProperties);
+    return Objects.hash(elementType, apmId, sort, ampTitle, isDeleted, dbId, nodeId, labels, additionalProperties);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class ApmFnaNode {\n");
-    sb.append("    typeName: ").append(toIndentedString(typeName)).append("\n");
+    sb.append("    elementType: ").append(toIndentedString(elementType)).append("\n");
     sb.append("    apmId: ").append(toIndentedString(apmId)).append("\n");
     sb.append("    sort: ").append(toIndentedString(sort)).append("\n");
     sb.append("    ampTitle: ").append(toIndentedString(ampTitle)).append("\n");
@@ -276,15 +270,5 @@ public class ApmFnaNode extends ApmNode implements Payload {
     return sb.toString();
   }
 
-  /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
-   */
-  private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
-  }
 }
 

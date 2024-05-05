@@ -540,13 +540,13 @@ components:
       type: object
       properties:
         data:
-          $ref: "#/components/schemas/Payload"
+          $ref: "#/components/schemas/IElement"
         succeeded:
           type: boolean
       required:
         - succeeded
         - data
-    Payload:
+    IElement:
       type: object
       discriminator:
         propertyName: typeName

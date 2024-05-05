@@ -16,7 +16,7 @@ import jakarta.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-05-02T16:46:26.629395600-06:00[America/Denver]", comments = "Generator version: 7.5.0")
 public class ApiResult {
 
-  private Payload data;
+  private IElement data;
 
   private Boolean succeeded;
 
@@ -27,12 +27,12 @@ public class ApiResult {
   /**
    * Constructor with only required parameters
    */
-  public ApiResult(Payload data, Boolean succeeded) {
+  public ApiResult(IElement data, Boolean succeeded) {
     this.data = data;
     this.succeeded = succeeded;
   }
 
-  public ApiResult data(Payload data) {
+  public ApiResult data(IElement data) {
     this.data = data;
     return this;
   }
@@ -44,11 +44,11 @@ public class ApiResult {
   @NotNull @Valid 
   @Schema(name = "data", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("data")
-  public Payload getData() {
+  public IElement getData() {
     return data;
   }
 
-  public void setData(Payload data) {
+  public void setData(IElement data) {
     this.data = data;
   }
 
