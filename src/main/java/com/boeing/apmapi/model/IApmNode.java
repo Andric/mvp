@@ -4,29 +4,6 @@ import java.time.OffsetDateTime;
 import java.util.List;
 
 public interface IApmNode extends IDbElement {
-
-    /**
-     * Get elementType
-     * 
-     * @return elementType
-     */
-    ApiElementEnum getApiElementType();
-
-    /**
-     * db system id for the node
-     * 
-     * @return dbId
-     */
-    String getDbId();
-
-    /**
-     * used for identifiers of a node. Must match the pattern where the 3 letter
-     * alpha code matches a node type enum
-     * 
-     * @return nodeId
-     */
-    String getNodeId();
-
     /**
      * list of labels for the node
      * 

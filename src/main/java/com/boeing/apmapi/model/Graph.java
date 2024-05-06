@@ -41,7 +41,7 @@ public class Graph implements IElement {
   @NotNull 
   @Schema(name = "elementType", description = "Name of the graph type", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("elementType")
-  public ApiElementEnum getElementType() {
+  public ApiElementEnum getApiElementType() {
     return elementType;
   }
 

@@ -3,31 +3,18 @@ package com.boeing.apmapi.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.OffsetDateTime;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.neo4j.driver.types.Node;
-import org.springframework.format.annotation.DateTimeFormat;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 import io.swagger.v3.oas.annotations.media.Schema;
-
-
-import jakarta.annotation.Generated;
-
-import java.util.Map;
-import java.util.HashMap;
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
-import com.fasterxml.jackson.annotation.JsonAnySetter;
 /**
  * SaveVersionNode
  */
-
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-05-02T16:46:26.629395600-06:00[America/Denver]", comments = "Generator version: 7.5.0")
 public class SaveVersionNode extends BaseNode {
   @NotNull
   protected ApiElementEnum elementType = ApiElementEnum.EVV;
 
+  @NotNull
   protected int saveVersion;
   @NotNull
   @NotBlank
@@ -137,52 +124,28 @@ public class SaveVersionNode extends BaseNode {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
+    if(!super.equals(o)) {
+      return false;
+    }
     SaveVersionNode saveVersionNode = (SaveVersionNode) o;
-    return Objects.equals(this.elementType, saveVersionNode.elementType) &&
-        Objects.equals(this.saveVersion, saveVersionNode.saveVersion) &&
-        Objects.equals(this.name, saveVersionNode.name) &&
-        Objects.equals(this.createDate, saveVersionNode.createDate) &&
-        Objects.equals(this.createBy, saveVersionNode.createBy) &&
-        Objects.equals(this.isCurrent, saveVersionNode.isCurrent) &&
-        Objects.equals(this.dbId, saveVersionNode.dbId) &&
-        Objects.equals(this.nodeId, saveVersionNode.nodeId) &&
-        Objects.equals(this.labels, saveVersionNode.labels) &&
-    Objects.equals(this.additionalProperties, saveVersionNode.additionalProperties);
+    return Objects.equals(this.saveVersion, saveVersionNode.saveVersion) &&
+        Objects.equals(this.name, saveVersionNode.name);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(elementType, saveVersion, name, createDate, createBy, isCurrent, dbId, nodeId, labels, additionalProperties);
+    return Objects.hash(elementType, saveVersion, name, createDate, createBy, isCurrent, dbId, nodeId, labels);
   }
 
   @Override
-  public String toString() {
+  public String getPropertiesString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class SaveVersionNode {\n");
-    sb.append("    elementType: ").append(toIndentedString(elementType)).append("\n");
     sb.append("    saveVersion: ").append(toIndentedString(saveVersion)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
-    sb.append("    createDate: ").append(toIndentedString(createDate)).append("\n");
-    sb.append("    createBy: ").append(toIndentedString(createBy)).append("\n");
-    sb.append("    isCurrent: ").append(toIndentedString(isCurrent)).append("\n");
-    sb.append("    dbId: ").append(toIndentedString(dbId)).append("\n");
-    sb.append("    nodeId: ").append(toIndentedString(nodeId)).append("\n");
-    sb.append("    labels: ").append(toIndentedString(labels)).append("\n");
-    
-    sb.append("    additionalProperties: ").append(toIndentedString(additionalProperties)).append("\n");
     sb.append("}");
     return sb.toString();
   }
 
-  /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
-   */
-  private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
-  }
+
 }
 

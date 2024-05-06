@@ -21,7 +21,7 @@ public class NodeList implements IElement {
   private ApiElementEnum elementType = ApiElementEnum.NODELIST;
 
   @Valid
-  private List<BaseNode> values = new ArrayList<>();
+  private List<IApmNode> values = new ArrayList<>();
 
   public NodeList() {
     super();
@@ -34,11 +34,11 @@ public class NodeList implements IElement {
   @NotNull 
   @Schema(name = "elementType", description = "type of the nodes in the list", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("elementType")
-  public ApiElementEnum getElementType() {
+  public ApiElementEnum getApiElementType() {
     return elementType;
   }
 
-  public void addValuesItem(BaseNode valuesItem) {
+  public void addValuesItem(IApmNode valuesItem) {
     if (this.values == null) {
       this.values = new ArrayList<>();
     }
@@ -52,11 +52,11 @@ public class NodeList implements IElement {
   @Valid 
   @Schema(name = "values", description = "List of Node objects", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("values")
-  public List<BaseNode> getValues() {
+  public List<IApmNode> getValues() {
     return values;
   }
 
-  public void setValues(List<BaseNode> values) {
+  public void setValues(List<IApmNode> values) {
     this.values = values;
   }
 

@@ -2,6 +2,7 @@ package com.boeing.apmapi.model;
 
 import java.util.Objects;
 
+import org.neo4j.driver.types.Node;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.boeing.apmapi.Utils.ApiUtil;
@@ -224,5 +225,27 @@ public abstract class BaseNode implements IApmNode{
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
+  }
+
+  protected static IApmNode instantiateApmNode(Node asNode){
+    ApiElementEnum nodeType = LabelApiElementMapper.getApiElementEnum(asNode);
+    IApmNode node = null;
+    switch(nodeType){
+      case "SaveVersionNode":
+        node = new SaveVersionNode(asNode);
+        break;
+      case "MoveNodeInfo":
+        node = new ClientNode(asNode);
+        break;
+      case "Graph":
+        node = new EngagementNode(asNode);
+        break;
+      case "NodeList":
+        node = new SaveVersionNode(asNode);
+        break;
+      default:
+        break;
+    }
+    return node;
   }
 }

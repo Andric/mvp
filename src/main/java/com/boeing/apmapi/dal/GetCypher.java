@@ -31,7 +31,7 @@ public class GetCypher extends BaseCypher {
                     Record record = result.next();
                     var props = record.values();
                     for (Value v : props) {
-                        nodes.addValuesItem(new BaseNode(v.asNode()));
+                        nodes.addValuesItem(BaseNode.instantiateApmNode(v.asNode()));
                     }
                 }
             }

@@ -1,6 +1,8 @@
 package com.boeing.apmapi.model;
 
 import java.util.Objects;
+
+import com.boeing.apmapi.Utils.ApiUtil;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.*;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -40,7 +42,7 @@ public class MoveNodeInfo {
    * used for identifiers of a node. Must match the pattern where the 3 letter alpha code matches a node type enum
    * @return dbId
   */
-  @Pattern(regexp = "\"^'[0-9]+\\.[A-Z]{3}\\.[0-9]+\\.[0-9]+\\.[0-9]+\\.*[0-9]*\" ") 
+  @Pattern(regexp = ApiUtil.NODE_ID_REGEX) 
   @Schema(name = "dbId", accessMode = Schema.AccessMode.READ_ONLY, example = "1.UNK.1.2.33.44444", description = "used for identifiers of a node. Must match the pattern where the 3 letter alpha code matches a node type enum", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("dbId")
   public String getDbId() {
@@ -60,7 +62,7 @@ public class MoveNodeInfo {
    * used for identifiers of a node. Must match the pattern where the 3 letter alpha code matches a node type enum
    * @return newParentDbId
   */
-  @Pattern(regexp = "\"^'[0-9]+\\.[A-Z]{3}\\.[0-9]+\\.[0-9]+\\.[0-9]+\\.*[0-9]*\" ") 
+  @Pattern(regexp = ApiUtil.NODE_ID_REGEX) 
   @Schema(name = "newParentDbId", accessMode = Schema.AccessMode.READ_ONLY, example = "1.UNK.1.2.33.44444", description = "used for identifiers of a node. Must match the pattern where the 3 letter alpha code matches a node type enum", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("newParentDbId")
   public String getNewParentDbId() {
