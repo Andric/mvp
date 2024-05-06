@@ -1,6 +1,8 @@
 package com.boeing.apmapi.model;
 
 import java.util.Objects;
+
+import com.boeing.apmapi.Utils.ApiDataTypes;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.OffsetDateTime;
 import org.neo4j.driver.types.Node;
@@ -12,7 +14,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
  */
 public class SaveVersionNode extends BaseNode {
   @NotNull
-  protected ApiElementEnum elementType = ApiElementEnum.EVV;
+  protected ApiDataTypes elementType = ApiDataTypes.EVV;
 
   @NotNull
   protected int saveVersion;
@@ -35,7 +37,7 @@ public class SaveVersionNode extends BaseNode {
   @Schema(name = "elementType", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("elementType")
   @Override
-  public ApiElementEnum getApiElementType() {
+  public ApiDataTypes getApiElementType() {
     return elementType;
   }
 

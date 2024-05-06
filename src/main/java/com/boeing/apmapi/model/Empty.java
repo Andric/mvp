@@ -1,6 +1,8 @@
 package com.boeing.apmapi.model;
 
 import java.util.Objects;
+
+import com.boeing.apmapi.Utils.ApiDataTypes;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.*;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -11,7 +13,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 @Schema(name = "Empty", description = "An empty object for when there is no data")
 public class Empty implements IElement {
 
-  private final ApiElementEnum elementType = ApiElementEnum.EMPTY;
+  private final ApiDataTypes elementType = ApiDataTypes.EMPTY;
 
   public Empty() {}
 
@@ -20,7 +22,7 @@ public class Empty implements IElement {
   @Schema(name = "elementType", description = "Name of the type", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("elementType")
   @Override
-  public ApiElementEnum getApiElementType() {
+  public ApiDataTypes getApiElementType() {
     return elementType;
   }
 

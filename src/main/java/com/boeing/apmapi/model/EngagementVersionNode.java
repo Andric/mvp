@@ -1,14 +1,16 @@
 package com.boeing.apmapi.model;
 
 import java.util.Objects;
+
+import com.boeing.apmapi.Utils.ApiDataTypes;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.neo4j.driver.types.Node;
 import jakarta.validation.constraints.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 
-public class EngagementNode extends ClientNode {
+public class EngagementVersionNode extends ClientNode {
 
-  protected ApiElementEnum elementType = ApiElementEnum.EVV;
+  protected ApiDataTypes elementType = ApiDataTypes.EVV;
 
   protected Integer engagementVersion;
 
@@ -16,7 +18,7 @@ public class EngagementNode extends ClientNode {
 
   protected boolean isCurrent = true;
 
-  public EngagementNode(Node node) {  
+  public EngagementVersionNode(Node node) {  
     super(node);
   }
 
@@ -77,7 +79,7 @@ public class EngagementNode extends ClientNode {
     if(!super.equals(o)) {
       return false;
     }
-    EngagementNode engagementNode = (EngagementNode) o;
+    EngagementVersionNode engagementNode = (EngagementVersionNode) o;
     return Objects.equals(this.engagementVersion, engagementNode.engagementVersion) &&
         Objects.equals(this.boeingApmVersion, engagementNode.boeingApmVersion) &&
         Objects.equals(this.isCurrent, engagementNode.isCurrent);

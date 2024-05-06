@@ -1,6 +1,8 @@
 package com.boeing.apmapi.model;
 
 import java.util.Objects;
+
+import com.boeing.apmapi.Utils.ApiDataTypes;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +20,7 @@ import jakarta.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-05-02T16:46:26.629395600-06:00[America/Denver]", comments = "Generator version: 7.5.0")
 public class NodeList implements IElement {
 
-  private ApiElementEnum elementType = ApiElementEnum.NODELIST;
+  private ApiDataTypes elementType = ApiDataTypes.NODELIST;
 
   @Valid
   private List<IApmNode> values = new ArrayList<>();
@@ -34,7 +36,7 @@ public class NodeList implements IElement {
   @NotNull 
   @Schema(name = "elementType", description = "type of the nodes in the list", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("elementType")
-  public ApiElementEnum getApiElementType() {
+  public ApiDataTypes getApiElementType() {
     return elementType;
   }
 

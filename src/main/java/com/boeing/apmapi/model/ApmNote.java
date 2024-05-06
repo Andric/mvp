@@ -1,6 +1,8 @@
 package com.boeing.apmapi.model;
 
 import java.util.Objects;
+
+import com.boeing.apmapi.Utils.ApiDataTypes;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 
@@ -10,7 +12,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
  */
 public class ApmNote extends BaseNode {
 
-  protected ApiElementEnum elementType = ApiElementEnum.NTT;
+  protected ApiDataTypes elementType = ApiDataTypes.NTT;
   protected String text;
 
   public ApmNote(org.neo4j.driver.types.Node node) {

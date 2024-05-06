@@ -1,20 +1,18 @@
 package com.boeing.apmapi.model;
 
 import java.util.Objects;
+
+import com.boeing.apmapi.Utils.ApiDataTypes;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 
-
-import jakarta.annotation.Generated;
 /**
  * ClientNode
  */
-
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-05-02T16:46:26.629395600-06:00[America/Denver]", comments = "Generator version: 7.5.0")
 public class ClientNode extends BaseNode {
 
-  protected ApiElementEnum elementType = ApiElementEnum.CVV;
+  protected ApiDataTypes elementType = ApiDataTypes.CVV;
 
   protected String name;
 

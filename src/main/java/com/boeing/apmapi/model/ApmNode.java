@@ -2,6 +2,7 @@ package com.boeing.apmapi.model;
 
 import java.util.Objects;
 
+import com.boeing.apmapi.Utils.ApiDataTypes;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
@@ -16,11 +17,11 @@ public class ApmNode extends BaseNode {
 
   protected Integer sort;
 
-  protected String ampTitle;
+  protected String title;
 
-  protected Boolean isDeleted;
+  protected Boolean isActive;
 
-  protected ApiElementEnum elementType = ApiElementEnum.AMPNODE;
+  protected ApiDataTypes elementType = ApiDataTypes.AMPNODE;
 
    /**
    * Constructor with only required parameters
@@ -29,8 +30,8 @@ public class ApmNode extends BaseNode {
     super(node);
     this.apmId = node.get("ampId").toString();
     this.sort = node.get("sort").asInt();
-    this.isDeleted = node.get("isDeleted").asBoolean();
-    this.ampTitle = node.get("ampTitle").toString();
+    this.isActive = node.get("is_active").asBoolean();
+    this.title = node.get("title").toString();
   }
 
   public ApmNode apmId(String apmId) {
@@ -73,14 +74,10 @@ public class ApmNode extends BaseNode {
    * @return ampTitle
   */
   
-  @Schema(name = "ampTitle", description = "title for the node", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-  @JsonProperty("ampTitle")
-  public String getAmpTitle() {
-    return ampTitle;
-  }
-
-  public void setAmpTitle(String ampTitle) {
-    this.ampTitle = ampTitle;
+  @Schema(name = "title", description = "title for the node", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("title")
+  public String getTitle() {
+    return title;
   }
 
   /**
@@ -90,12 +87,12 @@ public class ApmNode extends BaseNode {
   
   @Schema(name = "isDeleted", description = "is the node deleted", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("isDeleted")
-  public Boolean getIsDeleted() {
-    return isDeleted;
+  public Boolean getIsActive() {
+    return isActive;
   }
 
-  public void setIsDeleted(Boolean isDeleted) {
-    this.isDeleted = isDeleted;
+  public void setIsActive(Boolean isActive) {
+    this.isActive = isActive;
   }
 
 
@@ -107,7 +104,7 @@ public class ApmNode extends BaseNode {
   @NotNull @Valid 
   @Schema(name = "elementType", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("elementType")
-  public ApiElementEnum getElementType() {
+  public ApiDataTypes getElementType() {
     return elementType;
   }
 
@@ -125,13 +122,13 @@ public class ApmNode extends BaseNode {
     }
     return Objects.equals(this.apmId, apmNode.apmId) &&
         Objects.equals(this.sort, apmNode.sort) &&
-        Objects.equals(this.ampTitle, apmNode.ampTitle) &&
-        Objects.equals(this.isDeleted, apmNode.isDeleted);
+        Objects.equals(this.title, apmNode.title) &&
+        Objects.equals(this.isActive, apmNode.isActive);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(apmId, sort, ampTitle, isDeleted, elementType, dbId, nodeId, labels);
+    return Objects.hash(apmId, sort, title, isActive, elementType, dbId, nodeId, labels);
   }
 
   @Override
@@ -140,8 +137,8 @@ public class ApmNode extends BaseNode {
     sb.append(super.getPropertiesString());
     sb.append("    apmId: ").append(toIndentedString(apmId)).append("\n");
     sb.append("    sort: ").append(toIndentedString(sort)).append("\n");
-    sb.append("    ampTitle: ").append(toIndentedString(ampTitle)).append("\n");
-    sb.append("    isDeleted: ").append(toIndentedString(isDeleted)).append("\n");
+    sb.append("    title: ").append(toIndentedString(title)).append("\n");
+    sb.append("    isActive: ").append(toIndentedString(isActive)).append("\n");
     return sb.toString();
   }
 

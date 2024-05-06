@@ -540,41 +540,41 @@ components:
       type: object
       properties:
         data:
-          $ref: "#/components/schemas/IElement"
+          $ref: "#/components/schemas/Payload"
         succeeded:
           type: boolean
       required:
         - succeeded
         - data
-    IElement:
+    Payload:
       type: object
       discriminator:
         propertyName: typeName
         mapping: 
           CVV: "#/components/schemas/ClientNode"
-          EVV: "#/components/schemas/EngagementNode"
-          FNA: "#/components/schemas/ApmFnaNode"
-          FNG: "#/components/schemas/ApmFngNode"
-          FNC: "#/components/schemas/ApmFncNode"
-          TKK: "#/components/schemas/ApmTaskNode"
-          NTT: "#/components/schemas/ApmNote"
+          EVV: "#/components/schemas/EngagementVersionNode"
+          FNA: "#/components/schemas/FunctionalAreaNode"
+          FNG: "#/components/schemas/FunctionalGroupNode"
+          FNC: "#/components/schemasFunctionNode"
+          TKK: "#/components/schemas/TaskNode"
+          NTT: "#/components/schemas/NoteNode"
+          GNN: "#/components/schemas/GenericNode"
           Graph: "#/components/schemas/Graph"
           NodeList: "#/components/schemas/NodeList"
           Empty: "#/components/schemas/Empty"
           Error: "#/components/schemas/Error"
       oneOf:
-        - $ref: "#/components/schemas/NodeList"
+        - $ref: "#/components/schemas/ClientNode"
+        - $ref: "#/components/schemas/EngagementVersionNode"
+        - $ref: "#/components/schemas/FunctionalAreaNode"
+        - $ref: "#/components/schemas/FunctionalGroupNode"
+        - $ref: "#/components/schemas/FunctionNode"
+        - $ref: "#/components/schemas/TaskNode"
+        - $ref: "#/components/schemas/NoteNode"
         - $ref: "#/components/schemas/Graph"
+        - $ref: "#/components/schemas/NodeList"
         - $ref: "#/components/schemas/Empty"
         - $ref: "#/components/schemas/Error"
-        - $ref: "#/components/schemas/ApmNote"
-        - $ref: "#/components/schemas/ApmTaskNode"
-        - $ref: "#/components/schemas/ClientNode"
-        - $ref: "#/components/schemas/EngagementNode"
-        - $ref: "#/components/schemas/SaveVersionNode"
-        - $ref: "#/components/schemas/ApmFnaNode"
-        - $ref: "#/components/schemas/ApmFngNode"
-        - $ref: "#/components/schemas/ApmFncNode"
       description: Container for return values
     Error:
       type: object
@@ -661,7 +661,7 @@ components:
       required:
         - typeName
         - name
-    EngagementNode:
+    EngagementVersionNode:
       allOf:
         - $ref: "#/components/schemas/Node"
       type: object
@@ -692,38 +692,7 @@ components:
         - createDate
         - createBy
         - isCurrent
-    SaveVersionNode:
-      allOf:
-        - $ref: "#/components/schemas/Node"
-      type: object
-      properties:
-        typeName:
-          type: string
-          default: EVV
-        saveVersion:
-          type: integer
-          nullable: false
-        name:
-          type: string
-          nullable: false
-        createDate:
-          type: string
-          format: date-time
-          nullable: false
-        createBy:
-          $ref: "#/components/schemas/NodeId"
-        isCurrent:
-          type: boolean
-          nullable: false
-          default: true
-      required:
-        - typeName
-        - saveVersion
-        - name
-        - createDate
-        - createBy
-        - isCurrent
-    ApmFnaNode:
+    FunctionalAreaNode:
       allOf:
         - $ref: "#/components/schemas/ApmNode"
       type: object
@@ -733,7 +702,7 @@ components:
           default: FNA
       required:
         - typeName
-    ApmFngNode:
+    FunctionalGroupNode:
       allOf:
         - $ref: "#/components/schemas/ApmNode"
       type: object
@@ -743,7 +712,7 @@ components:
           default: FNG
       required:
         - typeName
-    ApmFncNode:
+    FunctionNode:
       allOf:
         - $ref: "#/components/schemas/ApmNode"
       type: object
@@ -805,7 +774,7 @@ components:
         - typeName
         - nodes
         - relationships
-    ApmNote:
+    NoteNode:
       allOf:
         - $ref: "#/components/schemas/Node"
       type: object
@@ -827,7 +796,7 @@ components:
           description: if node is marked for deletion
       required:
         - typeName
-    ApmTaskNode:
+    TaskNode:
       allOf:
         - $ref: "#/components/schemas/Node"
       type: object
@@ -873,10 +842,10 @@ components:
         - TGT # TagTool
         - TGS # TagSystem
         - TGM # TagMisc
-        - UNK # GenericNode
+        - GNN # GenericNode
         - Empty # Empty 
         - Error # Error
         - Graph # Graph
         - NodeList # NodeList
-      description: "Name of the node type - primary label/DTO type name. for unknown or mixed list items use GenericNode"
-      default: "UNK"
+      description: "Name of the node type - primary label/DTO type name. for unknown or mixed list items use GNN: GenericNode"
+      default: "Empty"

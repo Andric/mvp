@@ -5,6 +5,7 @@ import java.util.Objects;
 import org.neo4j.driver.types.Node;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.boeing.apmapi.Utils.ApiDataTypes;
 import com.boeing.apmapi.Utils.ApiUtil;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.ArrayList;
@@ -23,7 +24,7 @@ public abstract class BaseNode implements IApmNode{
    */
   protected String dbId;
   @NotNull
-  protected ApiElementEnum elementType;
+  protected ApiDataTypes elementType;
 
   /**
    * used for identifiers of a node. Must match the pattern
@@ -84,12 +85,12 @@ public abstract class BaseNode implements IApmNode{
   @Valid
   @Schema(name = "elementType", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("elementType")
-  public ApiElementEnum getApiElementType() {
+  public ApiDataTypes getApiElementType() {
     return this.elementType;
   }
 
   @NotNull
-  public void setApiElementType(ApiElementEnum elementType) {
+  public void setApiElementType(ApiDataTypes elementType) {
     this.elementType = elementType;
   }
 
@@ -228,24 +229,51 @@ public abstract class BaseNode implements IApmNode{
   }
 
   protected static IApmNode instantiateApmNode(Node asNode){
-    ApiElementEnum nodeType = LabelApiElementMapper.getApiElementEnum(asNode);
-    IApmNode node = null;
+    IApmNode apiNode = null;
+    String strType = asNode.get("nodeId").asString().substring(0,1);
+    ApiDataTypes nodeType = ApiDataTypes.valueOf(strType);
     switch(nodeType){
-      case "SaveVersionNode":
-        node = new SaveVersionNode(asNode);
+    case CVV:
+        apiNode = new ClientNode(asNode);
         break;
-      case "MoveNodeInfo":
-        node = new ClientNode(asNode);
+    case EVV:
+        apiNode = new EngagementVersionNode(asNode);
         break;
-      case "Graph":
-        node = new EngagementNode(asNode);
+    case FNA:
+        apiNode = new FunctionalAreaNode(asNode);
         break;
-      case "NodeList":
-        node = new SaveVersionNode(asNode);
+    case FNG:
+        apiNode = new FunctionalGroupNode(asNode);
         break;
-      default:
+    case FNC:
+        apiNode = new FunctionNode(asNode);
+        break;
+    case TKK:
+        apiNode = new TaskNode(asNode);
+        break;
+    case NTT:
+        apiNode = new NoteNode(asNode);
+        break;
+    case COM:
+        apiNode = new CommentNode(asNode);
+        break;
+    case TGT:
+        apiNode = new TagToolNode(asNode);
+        break;
+    case TGS:
+        apiNode = new TagSystemNode(asNode);
+        break;
+    case TGM:
+        apiNode = new TagMiscNode(asNode);
+        break;
+    case USR:
+    case CNS:
+        apiNode = new UserNode(asNode);
+        break;
+    default:
+        apiNode = new GenericNode(asNode);
         break;
     }
-    return node;
+    return apiNode;
   }
 }

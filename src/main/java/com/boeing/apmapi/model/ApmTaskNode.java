@@ -4,7 +4,7 @@ import org.neo4j.driver.types.Node;
 
 public class ApmTaskNode extends ApmNote {
 
-  protected ApiElementEnum elementType = ApiElementEnum.TKK;
+  protected ApiDataTypes elementType = ApiDataTypes.TKK;
 
    public ApmTaskNode(Node node) {
     super(node);

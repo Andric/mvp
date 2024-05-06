@@ -1,5 +1,6 @@
 package com.boeing.apmapi.model;
 
+import com.boeing.apmapi.Utils.ApiDataTypes;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
@@ -11,26 +12,26 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "elementType", visible = true)
 @JsonSubTypes({
         @JsonSubTypes.Type(value = ClientNode.class, name = "CVV"),
-        @JsonSubTypes.Type(value = EngagementNode.class, name = "EVV"),
+        @JsonSubTypes.Type(value = EngagementVersionNode.class, name = "EVV"),
         @JsonSubTypes.Type(value = Empty.class, name = "Empty"),
         @JsonSubTypes.Type(value = Error.class, name = "Error"),
-        @JsonSubTypes.Type(value = ApmFnaNode.class, name = "FNA"),
-        @JsonSubTypes.Type(value = ApmFncNode.class, name = "FNC"),
-        @JsonSubTypes.Type(value = ApmFngNode.class, name = "FNG"),
+        @JsonSubTypes.Type(value = FunctionalAreaNode.class, name = "FNA"),
+        @JsonSubTypes.Type(value = FunctionNode.class, name = "FNC"),
+        @JsonSubTypes.Type(value = FunctionalGroupNode.class, name = "FNG"),
         @JsonSubTypes.Type(value = Graph.class, name = "Graph"),
         @JsonSubTypes.Type(value = ApmNote.class, name = "NTT"),
         @JsonSubTypes.Type(value = NodeList.class, name = "NodeList"),
         @JsonSubTypes.Type(value = ApmTaskNode.class, name = "TKK"),
-        @JsonSubTypes.Type(value = ApmFnaNode.class, name = "ApmFnaNode"),
-        @JsonSubTypes.Type(value = ApmFncNode.class, name = "ApmFncNode"),
-        @JsonSubTypes.Type(value = ApmFngNode.class, name = "ApmFngNode"),
+        @JsonSubTypes.Type(value = FunctionalAreaNode.class, name = "ApmFnaNode"),
+        @JsonSubTypes.Type(value = FunctionNode.class, name = "ApmFncNode"),
+        @JsonSubTypes.Type(value = FunctionalGroupNode.class, name = "ApmFngNode"),
         @JsonSubTypes.Type(value = ApmNote.class, name = "ApmNote"),
         @JsonSubTypes.Type(value = ApmTaskNode.class, name = "ApmTaskNode"),
         @JsonSubTypes.Type(value = ClientNode.class, name = "ClientNode"),
-        @JsonSubTypes.Type(value = EngagementNode.class, name = "EngagementNode"),
+        @JsonSubTypes.Type(value = EngagementVersionNode.class, name = "EngagementNode"),
         @JsonSubTypes.Type(value = SaveVersionNode.class, name = "SaveVersionNode")
 })
 
 public interface IElement {
-    public ApiElementEnum getApiElementType();
+    public ApiDataTypes getApiElementType();
 }
