@@ -3,7 +3,7 @@ package com.boeing.apmapi.controller;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import com.boeing.apmapi.Utils.ApiUtil;
+import com.boeing.apmapi.common.Utils.ApiUtil;
 
 class ApiUtilTest {
 

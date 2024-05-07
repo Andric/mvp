@@ -2,7 +2,7 @@ package com.boeing.apmapi.model;
 
 import java.util.Objects;
 
-import com.boeing.apmapi.Utils.ApiDataTypes;
+import com.boeing.apmapi.common.Utils.ApiDataTypes;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
@@ -21,7 +21,7 @@ public class ApmNode extends BaseNode {
 
   protected Boolean isActive;
 
-  protected ApiDataTypes elementType = ApiDataTypes.AMPNODE;
+  protected ApiDataTypes elementType = ApiDataTypes.GNN;
 
    /**
    * Constructor with only required parameters

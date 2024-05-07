@@ -1,6 +1,8 @@
 package com.boeing.apmapi.model;
 
 import java.util.Objects;
+
+import com.boeing.apmapi.common.interfaces.IElement;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;

@@ -2,7 +2,7 @@ package com.boeing.apmapi.model;
 
 import org.neo4j.driver.types.Node;
 
-import com.boeing.apmapi.Utils.ApiDataTypes;
+import com.boeing.apmapi.common.Utils.ApiDataTypes;
 /**
  * ApmFnaNode
  */

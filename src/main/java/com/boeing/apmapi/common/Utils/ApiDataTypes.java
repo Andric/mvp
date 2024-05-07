@@ -1,4 +1,4 @@
-package com.boeing.apmapi.Utils;
+package com.boeing.apmapi.common.Utils;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 
@@ -120,7 +120,9 @@ SaveVersion	saveVersion	Long
   GRAPH("Graph"),
   NODELIST("NodeList"),
   EMPTY("Empty"),
-  ERROR("Error");
+  ERROR("Error"),
+  RELATIONSHIP("Relationship"),
+  RELATIONSHIP_LIST("RelationshipList");
 
   private String value;
 

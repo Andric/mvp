@@ -5,10 +5,11 @@
  */
 package com.boeing.apmapi.controller;
 
-import com.boeing.apmapi.Utils.ApiUtil;
+import com.boeing.apmapi.common.Utils.ApiUtil;
 import com.boeing.apmapi.dal.GetCypher;
 import com.boeing.apmapi.model.ApiResult;
 import com.boeing.apmapi.model.MoveNodeInfo;
+
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -216,9 +217,7 @@ public class ClientsApiController {
         produces = { "application/json" }
     )
     ResponseEntity<ApiResult> getClients(){
-        var nodes =  api.getNodes("Client");
-        var res = new ApiResult(nodes, true);
-        return ResponseEntity.ok(res);
+        return null;
     }
 
 
@@ -423,7 +422,9 @@ public class ClientsApiController {
             @Pattern(regexp = ApiUtil.NODE_ID_REGEX) @Parameter(name = "clientId", description = "id for operations on a specific client", required = true, in = ParameterIn.PATH) @PathVariable("clientId") String clientId,
             @Pattern(regexp = ApiUtil.NODE_ID_REGEX) @Parameter(name = "engagementId", description = "id for operations on a specific engagement", required = true, in = ParameterIn.PATH) @PathVariable("engagementId") String engagementId
     ) {
-        return null;
+            var nodes = api.getNodes("FunctionalArea");
+            var res = new ApiResult(nodes, true);
+            return ResponseEntity.ok(res);
     }
 
 

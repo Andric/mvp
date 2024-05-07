@@ -2,7 +2,8 @@ package com.boeing.apmapi.model;
 
 import java.util.Objects;
 
-import com.boeing.apmapi.Utils.ApiDataTypes;
+import com.boeing.apmapi.common.Utils.ApiDataTypes;
+import com.boeing.apmapi.common.interfaces.IElement;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
@@ -45,7 +46,7 @@ public class Error implements IElement {
   @Schema(name = "elementType", description = "Name of the error type", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("elementType")
   @Override
-  public ApiDataTypes getApiElementType() {
+  public ApiDataTypes getApiDataType() {
     return elementType;
   }
 

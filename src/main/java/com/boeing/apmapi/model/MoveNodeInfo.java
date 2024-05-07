@@ -2,27 +2,25 @@ package com.boeing.apmapi.model;
 
 import java.util.Objects;
 
-import com.boeing.apmapi.Utils.ApiUtil;
+import com.boeing.apmapi.common.Utils.ApiUtil;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 
-
-import jakarta.annotation.Generated;
-
 /**
  * MoveNodeInfo
  */
-
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-05-02T16:46:26.629395600-06:00[America/Denver]", comments = "Generator version: 7.5.0")
 public class MoveNodeInfo {
-
+  /**
+   * dbId of the node to move
+   */
   private String dbId;
-
+  /**
+   * dbId of the new parent for the node
+   */
   private String newParentDbId;
 
   public MoveNodeInfo() {
-    super();
   }
 
   /**
@@ -31,11 +29,6 @@ public class MoveNodeInfo {
   public MoveNodeInfo(String dbId, String newParentDbId) {
     this.dbId = dbId;
     this.newParentDbId = newParentDbId;
-  }
-
-  public MoveNodeInfo dbId(String dbId) {
-    this.dbId = dbId;
-    return this;
   }
 
   /**
@@ -49,15 +42,6 @@ public class MoveNodeInfo {
     return dbId;
   }
 
-  public void setDbId(String dbId) {
-    this.dbId = dbId;
-  }
-
-  public MoveNodeInfo newParentDbId(String newParentDbId) {
-    this.newParentDbId = newParentDbId;
-    return this;
-  }
-
   /**
    * used for identifiers of a node. Must match the pattern where the 3 letter alpha code matches a node type enum
    * @return newParentDbId
@@ -68,11 +52,6 @@ public class MoveNodeInfo {
   public String getNewParentDbId() {
     return newParentDbId;
   }
-
-  public void setNewParentDbId(String newParentDbId) {
-    this.newParentDbId = newParentDbId;
-  }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

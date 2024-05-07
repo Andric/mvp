@@ -1,4 +1,4 @@
-package com.boeing.apmapi.Utils;
+package com.boeing.apmapi.common.Utils;
 
 import org.springframework.web.context.request.NativeWebRequest;
 

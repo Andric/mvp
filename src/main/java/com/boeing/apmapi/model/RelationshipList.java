@@ -1,6 +1,9 @@
 package com.boeing.apmapi.model;
 
 import java.util.Objects;
+
+import com.boeing.apmapi.common.Utils.ApiDataTypes;
+import com.boeing.apmapi.common.interfaces.IElement;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,15 +11,14 @@ import jakarta.validation.Valid;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 
-import jakarta.annotation.Generated;
-
 /**
  * result with multiple Relationship objects
  */
 
 @Schema(name = "RelationshipList", description = "result with multiple Relationship objects")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-05-02T16:46:26.629395600-06:00[America/Denver]", comments = "Generator version: 7.5.0")
-public class RelationshipList {
+public class RelationshipList implements IElement{
+
+  protected ApiDataTypes elementType = ApiDataTypes.RELATIONSHIP_LIST;
 
   @Valid
   private List<@Valid Relationship> values = new ArrayList<>();
@@ -34,6 +36,10 @@ public class RelationshipList {
     return this;
   }
 
+  @Override
+  public ApiDataTypes getApiDataType() {
+    return elementType;
+  }
   /**
    * Get values
    * @return values

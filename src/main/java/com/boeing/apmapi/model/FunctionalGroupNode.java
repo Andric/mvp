@@ -1,6 +1,6 @@
 package com.boeing.apmapi.model;
 
-import com.boeing.apmapi.Utils.ApiDataTypes;
+import com.boeing.apmapi.common.Utils.ApiDataTypes;
 
 import jakarta.annotation.Generated;
 /**

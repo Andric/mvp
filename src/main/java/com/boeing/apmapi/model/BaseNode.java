@@ -3,10 +3,12 @@ package com.boeing.apmapi.model;
 import java.util.Objects;
 
 import org.neo4j.driver.types.Node;
+import org.springframework.boot.origin.SystemEnvironmentOrigin;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import com.boeing.apmapi.Utils.ApiDataTypes;
-import com.boeing.apmapi.Utils.ApiUtil;
+import com.boeing.apmapi.common.Utils.ApiDataTypes;
+import com.boeing.apmapi.common.Utils.ApiUtil;
+import com.boeing.apmapi.common.interfaces.IApmNode;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.ArrayList;
 import java.util.List;
@@ -85,13 +87,8 @@ public abstract class BaseNode implements IApmNode{
   @Valid
   @Schema(name = "elementType", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("elementType")
-  public ApiDataTypes getApiElementType() {
+  public ApiDataTypes getApiDataType() {
     return this.elementType;
-  }
-
-  @NotNull
-  public void setApiElementType(ApiDataTypes elementType) {
-    this.elementType = elementType;
   }
 
   /**
@@ -170,7 +167,7 @@ public abstract class BaseNode implements IApmNode{
   @Override
   @Schema(name = "isDeleted", description = "if node is marked for deletion", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("isDeleted")
-  public Boolean getIsDeleted() {
+  public Boolean getIsActive() {
     return isDeleted;
   }
 
@@ -228,9 +225,10 @@ public abstract class BaseNode implements IApmNode{
     return o.toString().replace("\n", "\n    ");
   }
 
-  protected static IApmNode instantiateApmNode(Node asNode){
+  public static IApmNode instantiateApmNode(Node asNode){
     IApmNode apiNode = null;
-    String strType = asNode.get("nodeId").asString().substring(0,1);
+    System.out.println(asNode.get("nodeId").asString());
+    String strType = asNode.get("nodeId").asString().substring(2,5);
     ApiDataTypes nodeType = ApiDataTypes.valueOf(strType);
     switch(nodeType){
     case CVV:
@@ -254,7 +252,7 @@ public abstract class BaseNode implements IApmNode{
     case NTT:
         apiNode = new NoteNode(asNode);
         break;
-    case COM:
+    /*case COM:
         apiNode = new CommentNode(asNode);
         break;
     case TGT:
@@ -265,13 +263,13 @@ public abstract class BaseNode implements IApmNode{
         break;
     case TGM:
         apiNode = new TagMiscNode(asNode);
-        break;
+        break; */
     case USR:
     case CNS:
         apiNode = new UserNode(asNode);
         break;
     default:
-        apiNode = new GenericNode(asNode);
+        apiNode = new ApmNode(asNode);
         break;
     }
     return apiNode;

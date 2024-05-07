@@ -2,7 +2,7 @@ package com.boeing.apmapi.model;
 
 import java.util.Objects;
 
-import com.boeing.apmapi.Utils.ApiDataTypes;
+import com.boeing.apmapi.common.Utils.ApiDataTypes;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 
@@ -10,12 +10,12 @@ import io.swagger.v3.oas.annotations.media.Schema;
 /**
  * ApmNote
  */
-public class ApmNote extends BaseNode {
+public class NoteNode extends BaseNode {
 
   protected ApiDataTypes elementType = ApiDataTypes.NTT;
   protected String text;
 
-  public ApmNote(org.neo4j.driver.types.Node node) {
+  public NoteNode(org.neo4j.driver.types.Node node) {
     super(node);
   }
 
@@ -27,10 +27,6 @@ public class ApmNote extends BaseNode {
   @JsonProperty("text")
   public String getText() {
     return text;
-  }
-
-  public void setText(String text) {
-    this.text = text;
   }
 
   @Override
@@ -45,7 +41,7 @@ public class ApmNote extends BaseNode {
       return false;
     }
 
-    ApmNote apmNote = (ApmNote) o;
+    NoteNode apmNote = (NoteNode) o;
     return Objects.equals(this.text, apmNote.text) &&
         Objects.equals(this.createDate, apmNote.createDate) &&
         Objects.equals(this.createBy, apmNote.createBy);
@@ -54,7 +50,7 @@ public class ApmNote extends BaseNode {
 
   @Override
   public int hashCode() {
-    return Objects.hash(elementType, text, createDate, createBy, isDeleted, dbId, nodeId, labels);
+    return Objects.hash(text, createDate, createBy);
   }
 
   @Override

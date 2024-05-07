@@ -1,12 +1,13 @@
 package com.boeing.apmapi.model;
-
 import org.neo4j.driver.types.Node;
 
-public class ApmTaskNode extends ApmNote {
+import com.boeing.apmapi.common.Utils.ApiDataTypes;
+
+public class TaskNode extends NoteNode {
 
   protected ApiDataTypes elementType = ApiDataTypes.TKK;
 
-   public ApmTaskNode(Node node) {
+   public TaskNode(Node node) {
     super(node);
   }
 

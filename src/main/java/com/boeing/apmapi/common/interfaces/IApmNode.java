@@ -1,16 +1,8 @@
-package com.boeing.apmapi.model;
+package com.boeing.apmapi.common.interfaces;
 
 import java.time.OffsetDateTime;
-import java.util.List;
 
-public interface IApmNode extends IDbElement {
-    /**
-     * list of labels for the node
-     * 
-     * @return labels
-     */
-    List<String> getLabels();
-
+public interface IApmNode extends INode {
     /**
      * date the node was created
      * 
@@ -30,6 +22,6 @@ public interface IApmNode extends IDbElement {
      * 
      * @return isDeleted
      */
-    Boolean getIsDeleted();
+    Boolean getIsActive();
 
 }

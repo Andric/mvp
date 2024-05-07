@@ -2,7 +2,9 @@ package com.boeing.apmapi.model;
 
 import java.util.Objects;
 
-import com.boeing.apmapi.Utils.ApiDataTypes;
+import com.boeing.apmapi.common.Utils.ApiDataTypes;
+import com.boeing.apmapi.common.interfaces.IApmNode;
+import com.boeing.apmapi.common.interfaces.IElement;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +38,7 @@ public class NodeList implements IElement {
   @NotNull 
   @Schema(name = "elementType", description = "type of the nodes in the list", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("elementType")
-  public ApiDataTypes getApiElementType() {
+  public ApiDataTypes getApiDataType() {
     return elementType;
   }
 
